@@ -11,6 +11,7 @@
     "documentationRules": {
       "companyName": "MF",
       "copyrightText": "Copyright (c) {companyName}. All Rights Reserved.",
+      "documentExposedElements": false,
       "documentInterfaces": false,
       "documentInternalElements": false
     },
@@ -20,4 +21,3 @@
       "blankLinesBetweenUsingGroups": "require"
     }
   }
-}

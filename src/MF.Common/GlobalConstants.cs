@@ -1,6 +1,9 @@
 ﻿namespace MF.Common
 {
-    public class GlobalConstants
+    public static class GlobalConstants
     {
+        public const string SystemName = "MF";
+
+        public const string AdministratorRoleName = "Administrator";
     }
 }
