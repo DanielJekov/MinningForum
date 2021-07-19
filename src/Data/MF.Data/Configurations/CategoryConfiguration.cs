@@ -15,7 +15,7 @@
                     .IsRequired();
 
             category
-                .HasOne(c => c.Author)
+                .HasOne(c => c.Author);
         }
     }
 }

@@ -7,8 +7,28 @@
 
     public class MFUserConfiguration : IEntityTypeConfiguration<MFUser>
     {
-        public void Configure(EntityTypeBuilder<MFUser> builder)
+        public void Configure(EntityTypeBuilder<MFUser> user)
         {
+            user
+               .HasMany(e => e.Claims)
+               .WithOne()
+               .HasForeignKey(e => e.UserId)
+               .IsRequired()
+               .OnDelete(DeleteBehavior.Restrict);
+
+            user
+                .HasMany(e => e.Logins)
+                .WithOne()
+                .HasForeignKey(e => e.UserId)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Restrict);
+
+            user
+                .HasMany(e => e.Roles)
+                .WithOne()
+                .HasForeignKey(e => e.UserId)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }
