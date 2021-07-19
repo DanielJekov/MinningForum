@@ -9,6 +9,13 @@
     {
         public void Configure(EntityTypeBuilder<Category> category)
         {
+            category
+                    .Property(c => c.Title)
+                    .HasMaxLength(30)
+                    .IsRequired();
+
+            category
+                .HasOne(c => c.Author)
         }
     }
 }

@@ -38,6 +38,15 @@
         public virtual ICollection<Topic> FollowedTopics { get; set; }
          = new HashSet<Topic>();
 
+        public virtual ICollection<Topic> Topics { get; set; }
+         = new HashSet<Topic>();
+
+        public virtual ICollection<Reply> Replies { get; set; }
+        = new HashSet<Reply>();
+
+        public virtual ICollection<Category> Categories { get; set; }
+        = new HashSet<Category>();
+
         public virtual ICollection<Category> FollowedCategories { get; set; }
          = new HashSet<Category>();
 
