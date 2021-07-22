@@ -7,7 +7,7 @@
 
     public class BanDataConfiguration : IEntityTypeConfiguration<BanData>
     {
-        public void Configure(EntityTypeBuilder<BanData> builder)
+        public void Configure(EntityTypeBuilder<BanData> banData)
         {
         }
     }

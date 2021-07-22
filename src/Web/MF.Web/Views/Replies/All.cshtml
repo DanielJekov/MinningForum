@@ -1,0 +1,64 @@
+﻿@model ICollection<MF.Models.ViewModels.Reply.ReplyOutputViewModel>
+<div class="mx-auto" style="width: 50rem;">
+    <text class="small">domDyrvo > el tehnika > elektrouredi </text>
+    </br>
+    </br>
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="card small float-left" style="width: 11rem;">published: 5 feb. 2018, 10:24h.</div>
+        </div>
+        <div class="col-lg-6">
+            <div class="card small float-center" style="width: 11rem;">last update: 5 feb. 2018, 10:24h.</div>
+        </div>
+        </br>
+        </br>
+        <h3 class="col-lg-12">Here is the name of the thread that you can fill in.</h3>
+        </br>
+        </br>
+        <div class="col-lg-6">
+            <button type="button" class="btn btn-success float-left ">Answer</button>
+            <button type="button" class="btn btn-danger float-left ">Follow</button>
+            <button type="button" class="btn btn-danger float-left ">Like</button>
+            <button type="button" class="btn btn-success float-left ">Share</button>
+        </div>
+        <div class="col-lg-6"></div>
+    </div>
+</div>
+    </br>
+@foreach (var reply in Model)
+{
+    <div class="row">
+        <div class="mx-auto">
+            <div class="card" style="width: 50rem;">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <h6 class="float-left">@reply.Author - Beginner</h6>
+                    </div>
+                    <div class="col-lg-6">
+                        <text class="float-right">@reply.CreatedOn #8</text>
+                    </div>
+                </div>
+            </div>
+            <div class="card" style="width: 50rem;">
+                <div class="row">
+                    <div class="col-sm-2">
+                        <ul class="list-group borderless">
+                            <li class="list-group-item" style="border: none"><img src="https://thumbs.dreamstime.com/z/vector-illustration-faceless-man-suit-tie-65138894.jpg" class="rounded-circle float-right" width="75" height="75" alt="..."></li>
+                            <li class="list-group-item" style="border: none"></li>
+                        </ul>
+                    </div>
+                    <div class="card-body col-lg-10">
+                        <p class="card-text">@reply.Content</p>
+                        <button type="button" class="btn btn-secondary  float-right">Quote</button>
+                        <button type="button" class="btn btn-primary float-right fal fa-share ">test</button>
+                        <button type="button" class="btn btn-success  float-right ">Like</button>
+                        <i class="fal fa-share"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+</br>
+</div>

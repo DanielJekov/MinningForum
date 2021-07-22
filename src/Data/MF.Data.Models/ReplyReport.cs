@@ -10,6 +10,10 @@
         [Required]
         public string Content { get; set; }
 
+        public int ReplyId { get; set; }
+
+        public Reply Reply { get; set; }
+
         [Required]
         public string ReportingUserId { get; set; }
 

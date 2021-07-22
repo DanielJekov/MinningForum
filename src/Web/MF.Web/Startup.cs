@@ -3,6 +3,7 @@ namespace MF.Web
     using MF.Data;
     using MF.Data.Models;
     using MF.Data.Seeding;
+    using MF.Services;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
@@ -47,6 +48,10 @@ namespace MF.Web
                 }).AddRazorRuntimeCompilation();
 
             services.AddSingleton(this.configuration);
+
+            services.AddTransient<ICategoriesService, CategoriesService>();
+            services.AddTransient<ITopicsService, TopicsService>();
+            services.AddTransient<IRepliesService, RepliesService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -69,7 +74,7 @@ namespace MF.Web
             {
                 var dbContext = serviceScope.ServiceProvider.GetRequiredService<MFDbContext>();
                 dbContext.Database.Migrate();
-                new MFDbContextSeeder().SeedAsync(dbContext, serviceScope.ServiceProvider).GetAwaiter().GetResult();
+                //new MFDbContextSeeder().SeedAsync(dbContext, serviceScope.ServiceProvider).GetAwaiter().GetResult();
             }
 
             app.UseHttpsRedirection();

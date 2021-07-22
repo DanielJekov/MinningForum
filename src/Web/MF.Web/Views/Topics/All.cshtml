@@ -1,0 +1,17 @@
+﻿@model ICollection<MF.Models.ViewModels.Topic.TopicOutputViewModel>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Topics</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var topic in Model)
+        {
+            <tr>
+                <th> <a class="text-dark text-decoration-none text" href="/Replies/All/@topic.Id">@topic.Title</a></th>
+            </tr>
+        }
+    </tbody>
+</table>    

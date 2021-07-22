@@ -9,13 +9,15 @@
     {
         public void Configure(EntityTypeBuilder<Category> category)
         {
-            category
-                    .Property(c => c.Title)
-                    .HasMaxLength(30)
-                    .IsRequired();
+            //category
+            //        .HasMany(c => c.Topics)
+            //        .WithOne(c => c.Category)
+            //        .OnDelete(DeleteBehavior.Restrict);
 
-            category
-                .HasOne(c => c.Author);
+            //category
+            //       .HasOne(c => c.Author)
+            //       .WithMany(c => c.Categories)
+            //       .OnDelete(DeleteBehavior.SetNull);
         }
     }
 }

@@ -5,20 +5,21 @@
     using System.ComponentModel.DataAnnotations;
 
     using MF.Data.Common.Models;
-    using MF.Data.Models.Enums;
 
     public class Reply : IAuditInfo, IDeletableEntity
     {
         public int Id { get; set; }
 
         [Required]
-        [MaxLength(1000)]
         public string Content { get; set; }
 
-        [Required]
         public string AuthorId { get; set; }
 
         public MFUser Author { get; set; }
+
+        public int TopicId { get; set; }
+
+        public Topic Topic { get; set; }
 
         public DateTime CreatedOn { get; set; }
         = DateTime.UtcNow;
@@ -31,5 +32,8 @@
 
         public virtual ICollection<ReplyReaction> ReplyReactions { get; set; }
         = new HashSet<ReplyReaction>();
+
+        public virtual ICollection<ReplyReport> ReplyReports { get; set; }
+       = new HashSet<ReplyReport>();
     }
 }

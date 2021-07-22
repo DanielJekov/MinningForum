@@ -10,6 +10,10 @@
         [Required]
         public string Content { get; set; }
 
+        public int? TopicId { get; set; }
+
+        public Topic Topic { get; set; }
+
         [Required]
         public string ReportingUserId { get; set; }
 

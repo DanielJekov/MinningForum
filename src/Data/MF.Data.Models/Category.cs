@@ -13,7 +13,6 @@
         [Required]
         public string Title { get; set; }
 
-        [Required]
         public string AuthorId { get; set; }
 
         public MFUser Author { get; set; }
@@ -29,8 +28,5 @@
 
         public ICollection<Topic> Topics { get; set; }
         = new HashSet<Topic>();
-
-        public ICollection<Reply> Replies { get; set; }
-         = new HashSet<Reply>();
     }
 }

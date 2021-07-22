@@ -9,6 +9,15 @@
     {
         public void Configure(EntityTypeBuilder<ReplyReaction> replyReaction)
         {
+            replyReaction
+                        .HasOne(c => c.Author)
+                        .WithMany(c => c.ReplyReactions)
+                        .OnDelete(DeleteBehavior.Restrict);
+
+            replyReaction
+                        .HasOne(c => c.Reply)
+                        .WithMany(c => c.ReplyReactions)
+                        .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }
