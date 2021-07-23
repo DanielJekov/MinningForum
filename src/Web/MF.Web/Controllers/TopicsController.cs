@@ -11,14 +11,17 @@
     {
         private readonly ITopicsService topicsService;
         private readonly ICategoriesService categoriesService;
+        private readonly IRepliesService repliesService;
 
         public TopicsController(
             ITopicsService topicsService,
-            ICategoriesService categoriesService
+            ICategoriesService categoriesService,
+            IRepliesService repliesService
             )
         {
             this.topicsService = topicsService;
             this.categoriesService = categoriesService;
+            this.repliesService = repliesService;
         }
 
         [Route("Category/{CategoryId}/Topics")]
@@ -31,9 +34,9 @@
         }
 
         [Route("Category/{CategoryId}/Topic/Create")]
-        public IActionResult Create(int categoryId)
+        public IActionResult Create()
         {
-            return this.View(categoryId);
+            return this.View();
         }
 
         [HttpPost("Category/{CategoryId}/Topic/Create")]
@@ -47,6 +50,9 @@
             var authorId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var topicId = this.topicsService.CreateTopic(input, authorId);
 
+            var replyInputModel = new ReplyCreateViewModel() { Content = input.Content, TopicId = topicId };
+            this.repliesService.CreateReply(replyInputModel, authorId);
+        
             return this.Redirect(topicId.ToString() + "/");
         }
     }

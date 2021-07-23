@@ -13,5 +13,10 @@
 
         [Required]
         public int? CategoryId { get; set; }
+
+        [Required]
+        [MinLength(NameMinLength)]
+        [MaxLength(1000)]
+        public string Content { get; set; }
     }
 }

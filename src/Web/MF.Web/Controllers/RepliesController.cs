@@ -47,12 +47,12 @@
         }
 
         //Have at least one bug: anyone can delete comment !!! have to put validation for user!!!!
-        [Route("Reply/Delete/{ReplyId}/")]
-        public IActionResult DeleteTopicById(int replyId)
+        [Route("Category/{categoryId}/Topic/{TopicId}/Reply/Delete/{ReplyId}")]
+        public IActionResult DeleteTopicById(int categoryId, int topicId, int replyId)
         {
             this.repliesService.DeleteReply(replyId);
 
-            return this.Redirect("/");
+            return this.Redirect("/Category/" + categoryId.ToString() + "/Topic/" + topicId.ToString() + "/");
         }
     }
 }
