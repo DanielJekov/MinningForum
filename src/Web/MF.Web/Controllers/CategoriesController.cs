@@ -16,6 +16,7 @@
             this.categoriesService = categoriesService;
         }
 
+        [Route("/Categories")]
         public IActionResult All()
         {
             var categories = this.categoriesService.All();

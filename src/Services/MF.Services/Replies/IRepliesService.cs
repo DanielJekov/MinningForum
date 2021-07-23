@@ -7,7 +7,7 @@
 
     public interface IRepliesService
     {
-        public ICollection<ReplyOutputViewModel> All(int topicId);
+        public ICollection<ReplyOutputViewModel> RepliesByTopicId(int topicId, string userId);
 
         public void CreateReply(ReplyCreateViewModel input, string authorId);
 

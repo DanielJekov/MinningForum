@@ -25,11 +25,12 @@
                     {
                         Id = t.Id,
                         Title = t.Title,
+                        CategoryId = categoryId,
                     })
                     .ToList();
         }
 
-        public void CreateTopic(TopicCreateViewModel input, string authorId)
+        public int CreateTopic(TopicCreateViewModel input, string authorId)
         {
             var topic = new Topic()
             {
@@ -40,6 +41,8 @@
 
             this.data.Topics.Add(topic);
             this.data.SaveChanges();
+
+            return topic.Id;
         }
 
         public bool DeleteTopic(string topicId)

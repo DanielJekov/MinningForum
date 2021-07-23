@@ -44,13 +44,13 @@
     <Content Update="Views\Categories\Create.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Update="Views\Replies\All.cshtml">
+    <Content Update="Views\Replies\RepliesByTopicId.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="Views\Replies\Create.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Update="Views\Topics\All.cshtml">
+    <Content Update="Views\Topics\TopicsByCategoryId.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="Views\Topics\Create.cshtml">

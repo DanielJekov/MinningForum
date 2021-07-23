@@ -24,7 +24,7 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
                         <li class="dropdown">
-                            <a class="nav-link text-dark" href="/Categories/All" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                            <a class="nav-link text-dark" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
                                 Categories
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
@@ -33,7 +33,7 @@
 
                                     foreach (var category in categories)
                                     {
-                                        <li><a class="dropdown-item" href="/Topics/All/@category.Id">@category.Title</a></li>
+                                        <li><a class="dropdown-item" href="/Category/@category.Id/Topics/">@category.Title</a></li>
                                     }
                                 }
                             </ul>

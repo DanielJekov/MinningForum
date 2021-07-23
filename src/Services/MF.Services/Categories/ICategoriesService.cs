@@ -8,10 +8,12 @@
 
     public interface ICategoriesService
     {
-        public void CreateCategory(CategoryCreateViewModel input, string authorId);
+        public int CreateCategory(CategoryCreateViewModel input, string authorId);
 
         public bool DeleteCategory(int categoryId);
 
         public ICollection<CategoryOutputViewModel> All();
+
+        public CategoryOutputViewModel GetById(int categoryId);
     }
 }

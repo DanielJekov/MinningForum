@@ -1,7 +1,7 @@
 ﻿namespace MF.Services
 {
-    using System.Linq;
     using System.Collections.Generic;
+    using System.Linq;
 
     using MF.Data;
     using MF.Data.Models;
@@ -28,7 +28,7 @@
                             .ToList();
         }
 
-        public void CreateCategory(CategoryCreateViewModel input, string authorId)
+        public int CreateCategory(CategoryCreateViewModel input, string authorId)
         {
             var category = new Category()
             {
@@ -38,6 +38,8 @@
 
             this.data.Categories.Add(category);
             this.data.SaveChanges();
+
+            return category.Id;
         }
 
         public bool DeleteCategory(int categoryId)
@@ -46,6 +48,17 @@
             var isSaved = this.data.SaveChanges();
 
             return isSaved != 0 ? true : false;
+        }
+
+        public CategoryOutputViewModel GetById(int categoryId)
+        {
+            return this.data.Categories
+                           .Select(c => new CategoryOutputViewModel()
+                           {
+                               Id = c.Id,
+                               Title = c.Title,
+                           })
+                           .FirstOrDefault();
         }
     }
 }

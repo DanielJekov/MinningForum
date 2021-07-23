@@ -16,30 +16,43 @@
             this.repliesService = repliesService;
         }
 
-        public IActionResult All(int Id)
+        [Route("Category/{CategoryId}/Topic/{TopicId}")]
+        public IActionResult RepliesByTopicId(int topicId)
         {
-            var replies = repliesService.All(Id);
+            var authorId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var replies = repliesService.RepliesByTopicId(topicId, authorId);
 
             return this.View(replies);
         }
 
+        [Route("Category/{CategoryId}/Topic/{TopicId}/Answer")]
         public IActionResult Create()
         {
             return this.View();
         }
 
-        [HttpPost]
-        public IActionResult Create(ReplyCreateViewModel input)
+        [HttpPost("Category/{CategoryId}/Topic/{TopicId}/Answer")]
+        public IActionResult Create(ReplyCreateViewModel input, int categoryId)
         {
-            if (!ModelState.IsValid)
+            if (!this.ModelState.IsValid)
             {
-                return this.Redirect("Create");
+                return this.Redirect("Answer");
             }
 
             var authorId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             this.repliesService.CreateReply(input, authorId);
 
-            return this.Redirect("All");
+            //Have to found better way to this reddirect
+            return this.Redirect("/Category/" + categoryId.ToString() + "/Topic/" + input.TopicId.ToString() + "/");
+        }
+
+        //Have at least one bug: anyone can delete comment !!! have to put validation for user!!!!
+        [Route("Reply/Delete/{ReplyId}/")]
+        public IActionResult DeleteTopicById(int replyId)
+        {
+            this.repliesService.DeleteReply(replyId);
+
+            return this.Redirect("/");
         }
     }
 }

@@ -5,10 +5,10 @@
     </br>
     <div class="row">
         <div class="col-lg-6">
-            <div class="card small float-left" style="width: 11rem;">published: 5 feb. 2018, 10:24h.</div>
+            <div class="card small float-left" style="width: 11rem;">Published: 5 feb. 2018, 10:24h.</div>
         </div>
         <div class="col-lg-6">
-            <div class="card small float-center" style="width: 11rem;">last update: 5 feb. 2018, 10:24h.</div>
+            <div class="card small float-center" style="width: 12rem;">Last update: 12 feb. 2018, 10:24h.</div>
         </div>
         </br>
         </br>
@@ -16,7 +16,9 @@
         </br>
         </br>
         <div class="col-lg-6">
-            <button type="button" class="btn btn-success float-left ">Answer</button>
+            <a href="Answer">
+                <button type="button" class="btn btn-success float-left ">Answer</button>
+            </a>
             <button type="button" class="btn btn-danger float-left ">Follow</button>
             <button type="button" class="btn btn-danger float-left ">Like</button>
             <button type="button" class="btn btn-success float-left ">Share</button>
@@ -49,8 +51,17 @@
                     </div>
                     <div class="card-body col-lg-10">
                         <p class="card-text">@reply.Content</p>
-                        <button type="button" class="btn btn-secondary  float-right">Quote</button>
-                        <button type="button" class="btn btn-primary float-right fal fa-share ">test</button>
+                        @if (reply.IsUserOwnReply)
+                        {
+                            <a href="/Reply/Delete/@reply.Id.ToString()"><button type="submit" class="btn btn-danger  float-right">Delete</button> </a>
+
+                        }
+                        else
+                        {
+                            <button type="submit" class="btn btn-secondary  float-right">Quote</button>
+
+                        }
+                        <button type="button" class="btn btn-primary float-right fal fa-share ">Like</button>
                         <button type="button" class="btn btn-success  float-right ">Like</button>
                         <i class="fal fa-share"></i>
                     </div>
@@ -58,7 +69,6 @@
             </div>
         </div>
     </div>
+    <br></br>
 }
 
-</br>
-</div>

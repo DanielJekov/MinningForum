@@ -9,7 +9,7 @@
     {
         public ICollection<TopicOutputViewModel> All(int categoryId);
 
-        public void CreateTopic(TopicCreateViewModel input, string authorId);
+        public int CreateTopic(TopicCreateViewModel input, string authorId);
 
         public bool DeleteTopic(string topicId);
     }

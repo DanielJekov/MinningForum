@@ -17,16 +17,19 @@
             this.data = data;
         }
 
-        public ICollection<ReplyOutputViewModel> All(int topicId)
+        public ICollection<ReplyOutputViewModel> RepliesByTopicId(int topicId, string userId)
         {
+
             return this.data.Replies
                 .Where(r => r.Topic.Id == topicId)
+                .Where(r => r.IsDeleted == false)
                 .Select(r => new ReplyOutputViewModel()
                 {
                     Id = r.Id,
                     Content = r.Content,
                     Author = r.Author.Email,
                     CreatedOn = r.CreatedOn.ToString("dd.MM.yyyy HH:mm"),
+                    IsUserOwnReply = r.Author.Id == userId,
                 })
                 .ToList();
         }

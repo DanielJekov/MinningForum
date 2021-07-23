@@ -8,6 +8,8 @@
 
         public string Content { get; set; }
 
+        public bool IsUserOwnReply { get; set; }
+
         public string Author { get; set; }
 
         public string CreatedOn { get; set; }

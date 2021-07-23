@@ -2,8 +2,8 @@ namespace MF.Web
 {
     using MF.Data;
     using MF.Data.Models;
-    using MF.Data.Seeding;
     using MF.Services;
+
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
