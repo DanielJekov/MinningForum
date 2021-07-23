@@ -2,6 +2,12 @@
 {
     public static class ModelValidation
     {
+        public static class User
+        {
+            public const int UsernameMinlength = 4;
+            public const int UsernameMaxLength = 25;
+        }
+
         public static class Category
         {
             public const int NameMinLength = 2;

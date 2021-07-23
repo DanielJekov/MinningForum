@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
 
     using MF.Data.Common.Models;
     using MF.Data.Models.Enums;
