@@ -1,8 +1,35 @@
-﻿
+﻿<div class="row">
+    <div class="col-md-1"></div>
+    <div class="col-md-10">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        <div class="row">
+                            <div class="col-md-6">Categories</div>
+                            <div class="col-md-6">
+                                <a href="/Category/Create">
+                                    <button type="button" class="btn btn-primary float-md-right">
+                                        New Category
+                                    </button>
+                                </a>
+                            </div>
+                        </div>
+                    </th>
+                </tr>
+            </thead>
 
-@foreach (var category in Model)
-{
-    <div>Category id: @category.Id</div>
-    <div>Category name: @category.Title</div>
-    <br></br>
-}        
+            <tbody>
+                @foreach (var category in Model)
+                {
+                    <tr>
+                        <td>
+                            <a class="text-dark text-decoration-none text" href="/Category/@category.Id/Topics/">@category.Title</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="col-md-1"></div>
+</div>    

@@ -2,6 +2,7 @@ namespace MF.Web
 {
     using MF.Data;
     using MF.Data.Models;
+    using MF.Data.Seeding;
     using MF.Services;
 
     using Microsoft.AspNetCore.Builder;
@@ -74,7 +75,7 @@ namespace MF.Web
             {
                 var dbContext = serviceScope.ServiceProvider.GetRequiredService<MFDbContext>();
                 dbContext.Database.Migrate();
-                //new MFDbContextSeeder().SeedAsync(dbContext, serviceScope.ServiceProvider).GetAwaiter().GetResult();
+                new MFDbContextSeeder().SeedAsync(dbContext, serviceScope.ServiceProvider).GetAwaiter().GetResult();
             }
 
             app.UseHttpsRedirection();

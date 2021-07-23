@@ -23,12 +23,13 @@
             return this.View(categories);
         }
 
+        [Route("/Category/Create")]
         public IActionResult Create()
         {
             return this.View();
         }
 
-        [HttpPost]
+        [HttpPost("/Category/Create")]
         public IActionResult Create(CategoryCreateViewModel input)
         {
             if (!ModelState.IsValid)
@@ -39,7 +40,7 @@
             var authorId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             this.categoriesService.CreateCategory(input, authorId);
 
-            return this.Redirect("All");
+            return this.Redirect("/Categories");
         }
     }
 }
