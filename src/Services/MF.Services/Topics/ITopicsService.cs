@@ -11,6 +11,6 @@
 
         public int CreateTopic(TopicCreateViewModel input, string authorId);
 
-        public bool DeleteTopic(string topicId);
+        public bool DeleteTopic(int topicId);
     }
 }

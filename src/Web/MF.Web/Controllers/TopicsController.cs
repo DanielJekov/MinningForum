@@ -52,8 +52,16 @@
 
             var replyInputModel = new ReplyCreateViewModel() { Content = input.Content, TopicId = topicId };
             this.repliesService.CreateReply(replyInputModel, authorId);
-        
+
             return this.Redirect(topicId.ToString() + "/");
+        }
+
+        [Route("Category/{CategoryId}/Topic/Delete/{TopicId}")]
+        public IActionResult DeleteTopicById(int categoryId, int topicId)
+        {
+            this.topicsService.DeleteTopic(topicId);
+
+            return this.Redirect($"/Category/{categoryId}/Topics");
         }
     }
 }

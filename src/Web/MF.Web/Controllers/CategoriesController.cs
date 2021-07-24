@@ -42,5 +42,13 @@
 
             return this.Redirect("/Categories");
         }
+
+        [Route("Category/Delete/{CategoryId}")]
+        public IActionResult DeleteCategoryById(int categoryId)
+        {
+            this.categoriesService.DeleteCategory(categoryId);
+
+            return this.Redirect("/Categories");
+        }
     }
 }

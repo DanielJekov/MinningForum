@@ -90,7 +90,7 @@
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = new MFUser { UserName = Input.UserName, Email = Input.Email, GenderType = Input.GenderType.Value, };
+                var user = new MFUser { UserName = Input.UserName, Email = Input.Email, GenderType = Input.GenderType.Value, PasswordHash = Input.ConfirmPassword};
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
@@ -117,6 +117,7 @@
                         return LocalRedirect(returnUrl);
                     }
                 }
+
                 foreach (var error in result.Errors)
                 {
                     ModelState.AddModelError(string.Empty, error.Description);

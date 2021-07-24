@@ -20,6 +20,7 @@
         public ICollection<CategoryOutputViewModel> All()
         {
             return this.data.Categories
+                            .Where(c => c.IsDeleted == false)
                             .Select(c => new CategoryOutputViewModel()
                             {
                                 Id = c.Id,

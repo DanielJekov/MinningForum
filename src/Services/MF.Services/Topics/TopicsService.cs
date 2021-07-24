@@ -21,11 +21,11 @@
         {
             return this.data.Topics
                     .Where(t => t.Category.Id == categoryId)
+                    .Where(t => t.IsDeleted == false)
                     .Select(t => new TopicOutputViewModel()
                     {
                         Id = t.Id,
                         Title = t.Title,
-                        CategoryId = categoryId,
                     })
                     .ToList();
         }
@@ -45,7 +45,7 @@
             return topic.Id;
         }
 
-        public bool DeleteTopic(string topicId)
+        public bool DeleteTopic(int topicId)
         {
             this.data.Topics.Find(topicId).IsDeleted = true;
             var isSave = this.data.SaveChanges();
