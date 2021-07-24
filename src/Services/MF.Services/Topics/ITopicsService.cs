@@ -12,5 +12,6 @@
         public int CreateTopic(TopicCreateViewModel input, string authorId);
 
         public bool DeleteTopic(int topicId);
+        public TopicDetailsOutputModel Details(int topicId);
     }
 }

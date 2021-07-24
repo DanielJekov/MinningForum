@@ -27,7 +27,7 @@
                 {
                     Id = r.Id,
                     Content = r.Content,
-                    Author = r.Author.Email,
+                    Author = r.Author.UserName,
                     CreatedOn = r.CreatedOn.ToString("dd.MM.yyyy HH:mm"),
                     IsUserOwnReply = r.Author.Id == userId,
                 })

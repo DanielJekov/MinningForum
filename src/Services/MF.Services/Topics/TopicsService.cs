@@ -7,6 +7,7 @@
     using MF.Data.Models;
     using MF.Models.ViewModels;
     using MF.Models.ViewModels.Topic;
+    using Microsoft.EntityFrameworkCore;
 
     public class TopicsService : ITopicsService
     {
@@ -51,6 +52,23 @@
             var isSave = this.data.SaveChanges();
 
             return isSave != 0 ? true : false;
+        }
+
+        public TopicDetailsOutputModel Details(int topicId)
+        {
+            var dateFormat = "dd.MM.yyyy HH:mm";
+
+            return this.data.Topics
+                 .Where(t => t.Id == topicId)
+                 .Include(t => t.Replies.Where(x => x.IsDeleted == false))
+                 .Select(t => new TopicDetailsOutputModel()
+                 {
+                     Title = t.Title,
+                     FirstPublish = t.Replies.Where(x => x.IsDeleted == false).OrderBy(x => x.CreatedOn).Select(x => x.CreatedOn).First().ToString(dateFormat),
+                     LastPublish = t.Replies.Where(x => x.IsDeleted == false).OrderByDescending(x => x.CreatedOn).Select(x => x.CreatedOn).First().ToString(dateFormat),
+
+                 })
+                 .FirstOrDefault();
         }
     }
 }

@@ -17,15 +17,9 @@
             this.data = data;
         }
 
-        public async Task<IViewComponentResult> InvokeAsync()
+        public async Task<IViewComponentResult> InvokeAsync(int categoryId)
         {
-            return this.View(this.data.Categories
-                            .Select(c => new CategoryOutputViewModel()
-                            {
-                                Id = c.Id,
-                                Title = c.Title,
-                            })
-                            .ToList());
+            return null;
         }
     }
 }

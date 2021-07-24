@@ -1,5 +1,6 @@
 ﻿namespace MF.Services
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
 
@@ -60,6 +61,11 @@
                                Title = c.Title,
                            })
                            .FirstOrDefault();
+        }
+
+        public CategoryDataOutputModel Details(int categoryId)
+        {
+            throw new NotImplementedException();
         }
     }
 }

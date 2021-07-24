@@ -20,7 +20,8 @@
         public IActionResult RepliesByTopicId(int topicId)
         {
             var authorId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var replies = repliesService.RepliesByTopicId(topicId, authorId);
+            var replies = this.repliesService.RepliesByTopicId(topicId, authorId);
+            this.ViewBag.TopicId = topicId;
 
             return this.View(replies);
         }
