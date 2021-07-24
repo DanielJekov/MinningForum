@@ -55,6 +55,7 @@
         public CategoryOutputViewModel GetById(int categoryId)
         {
             return this.data.Categories
+                           .Where(c => c.IsDeleted == false)
                            .Select(c => new CategoryOutputViewModel()
                            {
                                Id = c.Id,
