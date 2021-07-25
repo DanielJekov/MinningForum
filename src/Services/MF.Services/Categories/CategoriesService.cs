@@ -1,4 +1,4 @@
-﻿namespace MF.Services
+﻿namespace MF.Services.Categories
 {
     using System;
     using System.Collections.Generic;
@@ -46,7 +46,9 @@
 
         public bool DeleteCategory(int categoryId)
         {
-            this.data.Categories.Find(categoryId).IsDeleted = true;
+            var category = this.data.Categories.Find(categoryId);
+            category.IsDeleted = true;
+            category.DeletedOn = DateTime.UtcNow;
             var isSaved = this.data.SaveChanges();
 
             return isSaved != 0 ? true : false;

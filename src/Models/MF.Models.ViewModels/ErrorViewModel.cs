@@ -1,6 +1,4 @@
-using System;
-
-namespace MF.Web.Models
+namespace MF.Models.ViewModels
 {
     public class ErrorViewModel
     {

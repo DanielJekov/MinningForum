@@ -5,34 +5,23 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th>
-                        <div class="row">
-                            <div class="col-md-6">Topic</div>
-                            <div class="col-md-6">
-                                <a href="/Category/@ViewBag.CategoryId/Topic/Create">
-                                    <button type="button" class="btn btn-primary float-md-right">
-                                    New Topic
-                                    </button>
-                                </a>
-                            </div>
-                        </div>
-                    </th>
+                    <td class="font-weight-bold">Topic</td>
+                    <td>
+                        <a href="/Category/@ViewBag.CategoryId/Topic/Create" class="btn btn-primary float-md-right">New Topic</a>
+                    </td>
                 </tr>
             </thead>
-
             <tbody>
                 @foreach (var topic in Model)
                 {
-                <tr>
-                    <td>
-                        <a class="text-dark text-decoration-none text" href="/Category/@ViewBag.CategoryId/Topic/@topic.Id/">@topic.Title</a>
-                    </td>
-                    <td>
-                        <a href="/Category/@ViewBag.CategoryId/Topic/Delete/@topic.Id">
-                            <button type="button" class="btn btn-danger float-md-right">Delete</button>
-                        </a>
-                    </td>
-                </tr>
+                    <tr>
+                        <td>
+                            <a class="text-dark text-decoration-none text" href="/Category/@ViewBag.CategoryId/Topic/@topic.Id/">@topic.Title</a>
+                        </td>
+                        <td>
+                            <a href="/Category/@ViewBag.CategoryId/Topic/Delete/@topic.Id" class="btn btn-danger float-md-right">Delete</a>
+                        </td>
+                    </tr>
                 }
             </tbody>
         </table>

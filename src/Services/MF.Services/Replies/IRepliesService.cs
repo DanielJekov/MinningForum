@@ -1,4 +1,4 @@
-﻿namespace MF.Services
+﻿namespace MF.Services.Replies
 {
     using System.Collections.Generic;
 

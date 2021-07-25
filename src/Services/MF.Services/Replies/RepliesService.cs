@@ -1,5 +1,6 @@
-﻿namespace MF.Services
+﻿namespace MF.Services.Replies
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
 
@@ -49,7 +50,10 @@
 
         public bool DeleteReply(int replyId)
         {
-            this.data.Replies.Find(replyId).IsDeleted = true;
+            var reply = this.data.Replies.Find(replyId);
+            reply.IsDeleted = true;
+            reply.DeletedOn = DateTime.UtcNow;
+
             var isSaved = this.data.SaveChanges();
 
             return isSaved != 0 ? true : false;

@@ -1,24 +1,13 @@
 ﻿<div class="row">
-    <div class="col-md-1"></div>
-    <div class="col-md-10">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
         <table class="table">
             <thead>
                 <tr>
-                    <th>
-                        <div class="row">
-                            <div class="col-md-6">Categories</div>
-                            <div class="col-md-6">
-                                <a href="/Category/Create">
-                                    <button type="button" class="btn btn-primary float-md-right">
-                                        New Category
-                                    </button>
-                                </a>
-                            </div>
-                        </div>
-                    </th>
+                    <td class="font-weight-bold">Categories</td>
+                    <td> <a href="/Category/Create" class="btn btn-primary float-md-right">New Category</a></td>
                 </tr>
             </thead>
-
             <tbody>
                 @foreach (var category in Model)
                 {
@@ -27,14 +16,12 @@
                             <a class="text-dark text-decoration-none text" href="/Category/@category.Id/Topics/">@category.Title</a>
                         </td>
                         <td>
-                            <a href="/Category/Delete/@category.Id">
-                                <button type="button" class="btn btn-danger float-md-right">Delete </button>
-                            </a>
+                            <a href="/Category/Delete/@category.Id" class="btn btn-danger float-md-right">Delete</a>
                         </td>
                     </tr>
                 }
             </tbody>
         </table>
     </div>
-    <div class="col-md-1"></div>
+    <div class="col-md-2"></div>
 </div>    

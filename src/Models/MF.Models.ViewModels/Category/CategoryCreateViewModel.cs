@@ -1,4 +1,4 @@
-﻿namespace MF.Models.ViewModels
+﻿namespace MF.Models.ViewModels.Category
 {
     using System.ComponentModel.DataAnnotations;
 

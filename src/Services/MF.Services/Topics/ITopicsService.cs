@@ -1,4 +1,4 @@
-﻿namespace MF.Services
+﻿namespace MF.Services.Topics
 {
     using System.Collections.Generic;
 

@@ -2,8 +2,11 @@
 {
     using System.Security.Claims;
 
-    using MF.Models.ViewModels;
-    using MF.Services;
+    using MF.Models.ViewModels.Reply;
+    using MF.Models.ViewModels.Topic;
+    using MF.Services.Categories;
+    using MF.Services.Replies;
+    using MF.Services.Topics;
 
     using Microsoft.AspNetCore.Mvc;
 

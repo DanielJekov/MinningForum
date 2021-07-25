@@ -2,8 +2,8 @@
 {
     using System.Security.Claims;
 
-    using MF.Models.ViewModels;
-    using MF.Services;
+    using MF.Models.ViewModels.Reply;
+    using MF.Services.Replies;
 
     using Microsoft.AspNetCore.Mvc;
 

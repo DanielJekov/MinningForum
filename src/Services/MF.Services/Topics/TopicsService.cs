@@ -1,12 +1,13 @@
-﻿namespace MF.Services
+﻿namespace MF.Services.Topics
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
 
     using MF.Data;
     using MF.Data.Models;
-    using MF.Models.ViewModels;
     using MF.Models.ViewModels.Topic;
+
     using Microsoft.EntityFrameworkCore;
 
     public class TopicsService : ITopicsService
@@ -48,7 +49,10 @@
 
         public bool DeleteTopic(int topicId)
         {
-            this.data.Topics.Find(topicId).IsDeleted = true;
+            var topic = this.data.Topics.Find(topicId);
+            topic.IsDeleted = true;
+            topic.DeletedOn = DateTime.UtcNow;
+
             var isSave = this.data.SaveChanges();
 
             return isSave != 0 ? true : false;

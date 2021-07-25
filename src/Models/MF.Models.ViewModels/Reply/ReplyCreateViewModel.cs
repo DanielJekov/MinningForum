@@ -1,4 +1,4 @@
-﻿namespace MF.Models.ViewModels
+﻿namespace MF.Models.ViewModels.Reply
 {
     using System.ComponentModel.DataAnnotations;
 

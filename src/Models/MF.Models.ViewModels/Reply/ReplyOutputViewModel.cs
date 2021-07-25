@@ -1,12 +1,14 @@
 ﻿namespace MF.Models.ViewModels.Reply
 {
-    using System;
+    using Ganss.XSS;
 
     public class ReplyOutputViewModel
     {
         public int Id { get; set; }
 
         public string Content { get; set; }
+
+        public string SanitizedContent => new HtmlSanitizer().Sanitize(this.Content);
 
         public bool IsUserOwnReply { get; set; }
 

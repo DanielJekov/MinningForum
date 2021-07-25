@@ -1,12 +1,7 @@
 ﻿namespace MF.Web.Controllers
 {
-    using System;
-    using System.Collections.Generic;
     using System.Diagnostics;
-    using System.Linq;
-    using System.Threading.Tasks;
-
-    using MF.Web.Models;
+    using MF.Models.ViewModels;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
 

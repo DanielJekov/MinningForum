@@ -6,7 +6,7 @@
     using System.Threading.Tasks;
 
     using MF.Services;
-
+    using MF.Services.Topics;
     using Microsoft.AspNetCore.Mvc;
 
     public class TopicDetailsViewComponent : ViewComponent

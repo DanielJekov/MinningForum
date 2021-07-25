@@ -2,8 +2,10 @@ namespace MF.Web
 {
     using MF.Data;
     using MF.Data.Models;
-    using MF.Data.Seeding;
-    using MF.Services;
+    using MF.Services.Categories;
+    using MF.Services.Replies;
+    using MF.Services.Topics;
+    using MF.Services.Users;
 
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
@@ -53,6 +55,7 @@ namespace MF.Web
             services.AddTransient<ICategoriesService, CategoriesService>();
             services.AddTransient<ITopicsService, TopicsService>();
             services.AddTransient<IRepliesService, RepliesService>();
+            services.AddTransient<IUsersService, UsersService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

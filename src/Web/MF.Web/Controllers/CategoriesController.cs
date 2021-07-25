@@ -1,10 +1,8 @@
 ﻿namespace MF.Web.Controllers
 {
     using System.Security.Claims;
-
-    using MF.Models.ViewModels;
-    using MF.Services;
-
+    using MF.Models.ViewModels.Category;
+    using MF.Services.Categories;
     using Microsoft.AspNetCore.Mvc;
 
     public class CategoriesController : Controller

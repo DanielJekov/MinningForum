@@ -1,4 +1,4 @@
-﻿@inject MF.Services.ICategoriesService categoriesService 
+﻿@inject MF.Services.Categories.ICategoriesService categoriesService 
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -27,7 +27,7 @@
                             <a class="nav-link text-dark" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
                                 Categories
                             </a>
-                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                            <ul class="dropdown-menu">
                                 @{
                                     var categories = categoriesService.All();
 
