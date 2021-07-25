@@ -4,6 +4,16 @@
     ViewData["Title"] = "Discuss";
     var topicDetails = this.topicsService.Details(ViewBag.TopicId);
 }
+<script src="/lib/tinymce/tinymce.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+    tinymce.init({
+        selector: "textarea",
+        plugins: [
+            "image paste table link code media"
+        ]
+    });
+</script>
+
 <div class="mx-auto" style="width: 50rem;">
     <text class="small">domDyrvo > el tehnika > elektrouredi </text>
     </br>
@@ -21,12 +31,9 @@
         </br>
         </br>
         <div class="col-lg-6">
-            <a href="Answer">
-                <button type="button" class="btn btn-success float-left ">Answer</button>
-            </a>
-            <button type="button" class="btn btn-danger float-left ">Follow</button>
-            <button type="button" class="btn btn-danger float-left ">Like</button>
-            <button type="button" class="btn btn-success float-left ">Share</button>
+            <a class="btn btn-secondary" href="#Answer" role="button">Answer</a>
+            <a class="btn btn-primary" href="#" role="button">Like</a>
+            <a class="btn btn-success" href="#User" role="button">Follow</a>
         </div>
         <div class="col-lg-6"></div>
     </div>
@@ -39,7 +46,7 @@
             <div class="card" style="width: 50rem;">
                 <div class="row">
                     <div class="col-lg-6">
-                        <h6 class="float-left">@reply.Author - Beginner</h6>
+                        <h6 class="float-left" id="user">@reply.Author - Beginner</h6>
                     </div>
                     <div class="col-lg-6">
                         <text class="float-right">@reply.CreatedOn #@reply.Id</text>
@@ -55,7 +62,7 @@
                         </ul>
                     </div>
                     <div class="card-body col-lg-10">
-                        <p class="card-text">@reply.Content</p>
+                        <p class="card-text">@Html.Raw(@reply.Content)</p>
                         @if (reply.IsUserOwnReply)
                         {
                             <a href="Reply/Delete/@reply.Id.ToString()"><button type="submit" class="btn btn-danger  float-right">Delete</button> </a>
@@ -67,7 +74,7 @@
 
                         }
                         <button type="button" class="btn btn-primary float-right fal fa-share ">Like</button>
-                        <button type="button" class="btn btn-success  float-right ">Like</button>
+
                         <i class="fal fa-share"></i>
                     </div>
                 </div>
@@ -76,4 +83,12 @@
     </div>
     <br></br>
 }
-
+<div class="mx-auto" id="Answer" style="width: 50rem;">
+    <form method="post">
+        <div>
+            <textarea name="content">Hello, World!</textarea>
+        </div>
+        <input type="submit" class="btn btn-primary" />
+        <hr />
+    </form>
+</div>

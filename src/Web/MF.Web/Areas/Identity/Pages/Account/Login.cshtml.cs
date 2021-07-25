@@ -58,25 +58,25 @@
 
         public async Task<IActionResult> OnGetAsync(string returnUrl = null)
         {
-            if (!this.User.Identity.IsAuthenticated)
+            if (this.User.Identity.IsAuthenticated)
             {
-
-                if (!string.IsNullOrEmpty(ErrorMessage))
-                {
-                    ModelState.AddModelError(string.Empty, ErrorMessage);
-                }
-
-                returnUrl ??= Url.Content("~/");
-
-                // Clear the existing external cookie to ensure a clean login process
-                await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
-
-                ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
-
-                ReturnUrl = returnUrl;
+                return this.Redirect("/");
             }
 
-            return this.Redirect("/");
+            if (!string.IsNullOrEmpty(ErrorMessage))
+            {
+                ModelState.AddModelError(string.Empty, ErrorMessage);
+            }
+
+            returnUrl ??= Url.Content("~/");
+
+            // Clear the existing external cookie to ensure a clean login process
+            await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
+
+            ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+
+            ReturnUrl = returnUrl;
+            return null;
         }
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)

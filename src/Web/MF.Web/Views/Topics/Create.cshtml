@@ -1,18 +1,26 @@
 ﻿@{ViewData["Title"] = "Create Topic";
 }
+<script src="/lib/tinymce/tinymce.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+    tinymce.init({
+        selector: "textarea",
+        plugins: [
+            "image paste table link code media"
+        ]
+    });
+</script>
+
 <div class="Row">
-    <div class="col-md-4 text-center">
+    <div class="mx-auto text-center" style="width: 50rem;">
         <form method="post">
             <div class="form-group">
                 <label for="topicName">Topic Name</label>
                 <input type="text" class="form-control" name="title" id="title" placeholder="Best Minning Technics">
                 </br>
-                <div class="form-group">
-                    <label for="Content">Reply Content</label>
-                    <textarea class="form-control" name="content" id="Answer" rows="3"></textarea>
+                <div>
+                    <textarea name="content">Hello, World!</textarea>
                 </div>
-
-                <input type="submit" class="btn btn-primary mb-2" value="Create" />
+                <input type="submit" class="btn btn-primary" />
             </div>
         </form>
     </div>

@@ -32,8 +32,8 @@
             return this.View();
         }
 
-        [HttpPost("Category/{CategoryId}/Topic/{TopicId}/Answer")]
-        public IActionResult Create(ReplyCreateViewModel input, int categoryId)
+        [HttpPost("Category/{CategoryId}/Topic/{TopicId}")]
+        public IActionResult Createe(ReplyCreateViewModel input, int categoryId)
         {
             if (!this.ModelState.IsValid)
             {
