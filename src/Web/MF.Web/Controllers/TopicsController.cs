@@ -1,7 +1,5 @@
 ﻿namespace MF.Web.Controllers
 {
-    using System.Security.Claims;
-
     using MF.Models.ViewModels.Reply;
     using MF.Models.ViewModels.Topic;
     using MF.Services.Categories;
@@ -10,7 +8,7 @@
 
     using Microsoft.AspNetCore.Mvc;
 
-    public class TopicsController : Controller
+    public class TopicsController : BaseController
     {
         private readonly ITopicsService topicsService;
         private readonly ICategoriesService categoriesService;
@@ -50,7 +48,7 @@
                 return this.Redirect("Create");
             }
 
-            var authorId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var authorId = this.GetUserId();
             var topicId = this.topicsService.CreateTopic(input, authorId);
 
             var replyInputModel = new ReplyCreateViewModel() { Content = input.Content, TopicId = topicId };

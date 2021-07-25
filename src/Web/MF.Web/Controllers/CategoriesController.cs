@@ -5,7 +5,7 @@
     using MF.Services.Categories;
     using Microsoft.AspNetCore.Mvc;
 
-    public class CategoriesController : Controller
+    public class CategoriesController : BaseController
     {
         private readonly ICategoriesService categoriesService;
 
@@ -35,7 +35,7 @@
                 return this.Redirect("Create");
             }
 
-            var authorId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var authorId = this.GetUserId();
             this.categoriesService.CreateCategory(input, authorId);
 
             return this.Redirect("/Categories");

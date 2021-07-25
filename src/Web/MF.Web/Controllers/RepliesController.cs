@@ -7,7 +7,7 @@
 
     using Microsoft.AspNetCore.Mvc;
 
-    public class RepliesController : Controller
+    public class RepliesController : BaseController
     {
         private readonly IRepliesService repliesService;
 
@@ -19,7 +19,7 @@
         [Route("Category/{CategoryId}/Topic/{TopicId}")]
         public IActionResult RepliesByTopicId(int topicId)
         {
-            var authorId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var authorId = this.GetUserId();
             var replies = this.repliesService.RepliesByTopicId(topicId, authorId);
             this.ViewBag.TopicId = topicId;
 
@@ -40,7 +40,7 @@
                 return this.Redirect("Answer");
             }
 
-            var authorId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var authorId = this.GetUserId();
             this.repliesService.CreateReply(input, authorId);
 
             //Have to found better way to this reddirect
