@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
 
     using MF.Data.Common.Models;
     using MF.Data.Models.Enums;
@@ -30,14 +29,14 @@
         public virtual ICollection<BanData> Bans { get; set; }
         = new HashSet<BanData>();
 
-        //public virtual ICollection<MFUser> FollowedUsers { get; set; }
-        //= new HashSet<MFUser>();
+        public virtual ICollection<UserFollower> FollowerUsers{ get; set; }
+        = new HashSet<UserFollower>();
 
-        //public virtual ICollection<Topic> FollowedTopics { get; set; }
-        // = new HashSet<Topic>();
+        public virtual ICollection<UserFollower> FollowedUsers { get; set; }
+        = new HashSet<UserFollower>();
 
-        //public virtual ICollection<Category> FollowedCategories { get; set; }
-        // = new HashSet<Category>();
+        public virtual ICollection<TopicsFollowings> FollowedTopics { get; set; }
+         = new HashSet<TopicsFollowings>();
 
         public virtual ICollection<Category> Categories { get; set; }
         = new HashSet<Category>();

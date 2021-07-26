@@ -30,6 +30,9 @@
 
         public DateTime? DeletedOn { get; set; }
 
+        public virtual ICollection<TopicsFollowings> Followers { get; set; }
+        = new HashSet<TopicsFollowings>();
+
         public virtual ICollection<Reply> Replies { get; set; }
         = new HashSet<Reply>();
 

@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MF.Data.Migrations
 {
     [DbContext(typeof(MFDbContext))]
-    [Migration("20210724113014_InitialCreate")]
+    [Migration("20210726132803_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -447,6 +447,77 @@ namespace MF.Data.Migrations
                     b.ToTable("TopicReports");
                 });
 
+            modelBuilder.Entity("MF.Data.Models.TopicsFollowings", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("FollowerId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("TopicId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FollowerId");
+
+                    b.HasIndex("TopicId");
+
+                    b.ToTable("TopicsFollowings");
+                });
+
+            modelBuilder.Entity("MF.Data.Models.UserFollower", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("FollowedUserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("FollowerUserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FollowedUserId");
+
+                    b.HasIndex("FollowerUserId");
+
+                    b.ToTable("UserFollower");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.Property<int>("Id")
@@ -659,7 +730,8 @@ namespace MF.Data.Migrations
                 {
                     b.HasOne("MF.Data.Models.MFUser", "Author")
                         .WithMany("Topics")
-                        .HasForeignKey("AuthorId");
+                        .HasForeignKey("AuthorId")
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.HasOne("MF.Data.Models.Category", "Category")
                         .WithMany("Topics")
@@ -710,6 +782,44 @@ namespace MF.Data.Migrations
                     b.Navigation("ReportProcessData");
 
                     b.Navigation("Topic");
+                });
+
+            modelBuilder.Entity("MF.Data.Models.TopicsFollowings", b =>
+                {
+                    b.HasOne("MF.Data.Models.MFUser", "Follower")
+                        .WithMany("FollowedTopics")
+                        .HasForeignKey("FollowerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MF.Data.Models.Topic", "Topic")
+                        .WithMany("Followers")
+                        .HasForeignKey("TopicId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Follower");
+
+                    b.Navigation("Topic");
+                });
+
+            modelBuilder.Entity("MF.Data.Models.UserFollower", b =>
+                {
+                    b.HasOne("MF.Data.Models.MFUser", "FollowedUser")
+                        .WithMany("FollowedUsers")
+                        .HasForeignKey("FollowedUserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("MF.Data.Models.MFUser", "FollowerUser")
+                        .WithMany("FollowerUsers")
+                        .HasForeignKey("FollowerUserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("FollowedUser");
+
+                    b.Navigation("FollowerUser");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -776,6 +886,12 @@ namespace MF.Data.Migrations
 
                     b.Navigation("Claims");
 
+                    b.Navigation("FollowedTopics");
+
+                    b.Navigation("FollowedUsers");
+
+                    b.Navigation("FollowerUsers");
+
                     b.Navigation("Logins");
 
                     b.Navigation("Replies");
@@ -809,6 +925,8 @@ namespace MF.Data.Migrations
 
             modelBuilder.Entity("MF.Data.Models.Topic", b =>
                 {
+                    b.Navigation("Followers");
+
                     b.Navigation("Replies");
 
                     b.Navigation("TopicReactions");

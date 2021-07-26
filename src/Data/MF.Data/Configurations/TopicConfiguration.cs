@@ -9,10 +9,10 @@
     {
         public void Configure(EntityTypeBuilder<Topic> topic)
         {
-            //topic
-            //    .HasOne(t => t.Author)
-            //    .WithMany(t => t.Topics)
-            //    .OnDelete(DeleteBehavior.SetNull);
+            topic
+                .HasOne(t => t.Author)
+                .WithMany(t => t.Topics)
+                .OnDelete(DeleteBehavior.SetNull);
 
             //topic
             //    .HasOne(t => t.Category)
