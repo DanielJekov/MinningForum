@@ -1,0 +1,38 @@
+﻿@model ICollection<MF.Models.ViewModels.Topic.TopicViewModel>
+<div class="row">
+    <div class="col-md-1"></div>
+    <div class="col-md-10">
+        <span class="h6">
+            <a class=" text-decoration-none" href="/Categories/All">Categories</a> /
+            <a class=" text-decoration-none" href="/Categories/@ViewBag.CategoryId/Topics/">Category custom name</a> /
+            <a class=" text-decoration-none" href="/Topics/All">Topics</a> /
+            Gluposti Here
+        </span>
+        <br>
+        <br>
+        <table class="table">
+            <thead>
+                <tr>
+                    <td class="font-weight-bold">Topic</td>
+                    <td>
+                        <a asp-controller="Topics" asp-action="Create" asp-route-categoryId="@ViewBag.CategoryId" class="btn btn-primary float-md-right">New Topic</a>
+                    </td>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var topic in Model)
+                {
+                    <tr>
+                        <td>
+                            <a asp-controller="Replies" asp-action="All" asp-route-topicId="@topic.Id" class=" text-dark text-decoration-none float-md-left">@topic.Title</a>
+                        </td>
+                        <td>
+                            <a asp-controller="Topics" asp-action="Delete" asp-route-topicId="@topic.Id" class="btn btn-danger float-md-right">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="col-md-1"></div>
+</div>

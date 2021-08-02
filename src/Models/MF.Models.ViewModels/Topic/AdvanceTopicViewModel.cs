@@ -1,6 +1,6 @@
 ﻿namespace MF.Models.ViewModels.Topic
 {
-    public class AdvanceTopicOutputViewModel
+    public class AdvanceTopicViewModel
     {
         public int MyProperty { get; set; }
     }

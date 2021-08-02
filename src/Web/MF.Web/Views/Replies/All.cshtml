@@ -1,0 +1,103 @@
+﻿@model ICollection<MF.Models.ViewModels.Reply.ReplyOutputViewModel>
+@inject MF.Services.Topics.ITopicsService topicsService
+@{
+    ViewData["Title"] = "Discuss";
+    var topicDetails = this.topicsService.Details(ViewBag.TopicId);
+    bool IsFollowed = this.topicsService.IsFollower(ViewBag.UserId, ViewBag.TopicId);
+}
+<div class="container-fluid mt-100">
+    <div class="row">
+        <div class="col-lg-1"></div>
+        <div class="col-lg-10">
+            <div class="small">
+                <a class=" text-decoration-none" href="/Categories/All">Categories</a> /
+                <a class=" text-decoration-none" href="/Topics/All">Topics</a> /
+                Gluposti Here
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-6">
+                    <div class="card small float-left">Published: @topicDetails.FirstPublish</div>
+                </div>
+                <div class="col-6">
+                    <div class="card small float-right">Last update: @topicDetails.LastPublish</div>
+                </div>
+                <div class="card-body col-12 h4">@topicDetails.Title</div>
+                <div class="card-body col-12">
+                    <a asp-fragment="Reply" class="btn btn-secondary">Reply</a>
+                    <a asp-controller="" asp-action="" class="btn btn-primary">Like</a>
+                    @if (IsFollowed)
+                    {
+                        <a asp-controller="Topics" asp-action="RemoveFollower" asp-route-topicId="@ViewBag.TopicId" class="btn btn-success">Unfollow</a>
+                    }
+                    else
+                    {
+                        <a asp-controller="Topics" asp-action="AddFollower" asp-route-topicId="@ViewBag.TopicId" class="btn btn-success" >Follow</a>
+                    }
+                </div>
+                <div class="col-12">
+                    @foreach (var reply in Model)
+                    {
+                        <div class="card-header">
+                            <div class="row">
+                                <div class="col-6">
+                                    <h6 class="float-left" id="user">@reply.Author - Beginner</h6>
+                                </div>
+                                <div class="col-6">
+                                    <text class="float-right">@reply.CreatedOn #@reply.Id</text>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card border-top-0">
+                            <div class="row">
+                                <div class="media flex-wrap w-100 align-items-center">
+                                    <div class="card-body col-2">
+                                        <img src="https://thumbs.dreamstime.com/z/vector-illustration-faceless-man-suit-tie-65138894.jpg" class=" d-block ui-w-40 rounded-circle" width="75" height="75" alt="...">
+                                    </div>
+                                    <div class="card-text col-10">
+                                        <div class="card-body">@Html.Raw(@reply.SanitizedContent)</div>
+                                        <div class="card-body col-12">
+                                            @if (reply.IsUserOwnReply)
+                                            {
+                                                <a asp-controller="Replies" asp-action="Delete" asp-route-replyId="@reply.Id" class="btn btn-danger float-right">Delete</a>
+                                            }
+                                            else
+                                            {
+                                                <a asp-controller="" asp-action="" class="btn btn-secondary  float-right">Quote</a>
+                                            }
+                                            <a asp-controller="" asp-action=""  class="btn btn-primary  float-right">Like</a>
+                                        </div>
+                                        <br>
+                                        </div>
+                                    </div>
+                            </div>
+                        </div>
+                        <br>
+                        <br>
+                    }
+                </div>
+                <div class="col-12">
+                    <form method="post">
+                        <div>
+                            <textarea name="content" id="Reply" placeholder="Answer..."></textarea>
+                        </div>
+                        <input type="submit" class="btn btn-primary" />
+                        <hr />
+                    </form>
+                </div>
+            </div>
+            <br>
+        </div>
+        <div class="col-lg-1"></div>
+    </div>
+</div>
+
+<script src="/lib/tinymce/tinymce.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+    tinymce.init({
+        selector: "textarea",
+        plugins: [
+            "image paste table link code media"
+        ]
+    });
+</script>

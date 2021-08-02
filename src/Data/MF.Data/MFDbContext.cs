@@ -12,10 +12,6 @@
         {
         }
 
-        public DbSet<MFUser> MFUsers { get; set; }
-
-        public DbSet<MFRole> MFRoles { get; set; }
-
         public DbSet<Category> Categories { get; set; }
 
         public DbSet<Topic> Topics { get; set; }
@@ -30,9 +26,11 @@
 
         public DbSet<ReplyReport> ReplyReports { get; set; }
 
-        public DbSet<BanData> BansData { get; set; }
+        public DbSet<TopicsFollowings> TopicsFollowings { get; set; }
 
-        public DbSet<ReportProcessData> ReportsProcessData { get; set; }
+        public DbSet<UserFollower> UserFollowers { get; set; }
+
+        public DbSet<Message> Messages { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

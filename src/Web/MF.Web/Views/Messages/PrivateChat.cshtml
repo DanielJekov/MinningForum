@@ -1,0 +1,81 @@
+﻿@model ICollection<MF.Models.ViewModels.Messages.MessageViewModel>
+@inject MF.Services.Messages.IMessagesService messagesService;
+@{
+    var chatMembers = messagesService.GetChatMembers(ViewBag.UserId);
+}
+<script src="/lib/tinymce/tinymce.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+    tinymce.init({
+        selector: "textarea",
+        plugins: [
+            "image paste table link code media"
+        ]
+    });
+</script>
+
+<div class="container-fluid mt-100">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="card-header">
+                    <div class="card">
+                        <span class="h6">
+                            <a href="/Messages/PrivateChat/?receiverId=123456" class="text-dark" style="text-decoration: none">
+                                TEstUserName
+                            </a>
+                            <span class="small text-secondary"> 30.07.2021 17:42</span>
+                        </span>
+
+                        <a href="/Messages/PrivateChat/?receiverId=asdh12j3h12j3h21j3123" class="text-dark" style="text-decoration: none">
+                            <span class="small">
+                               
+                            </span>
+                        </a>
+                    </div>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="card-header">
+                <div class="row">
+                    @foreach (var message in Model)
+                    {
+                        @if (message.Receiver != message.CurrUser)
+                        {
+                            <div class="card col-md-6 text-left">
+                                <span class="h6">
+                                    @message.Receiver
+                                </span>
+                                <span class="small text-secondary"> @message.CreatedOn.ToString("dd.MM.yyyy HH:mm")</span>
+                                <br>
+                                <span>
+                                    @Html.Raw(message.SanitizedContent)
+                                </span>
+                            </div>
+                            <div class="col-md-6"></div>
+                        }
+                        else
+                        {
+                            <div class=" col-md-6"></div>
+                            <div class="card col-md-6 text-right">
+                                <span class="h6">You</span>
+                                <span class="small text-secondary"> @message.CreatedOn.ToString("dd.MM.yyyy HH:mm")</span>
+                                <br>
+                                <span>
+                                    @Html.Raw(message.SanitizedContent)
+                                </span>
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+            <br>
+            <form method="post">
+                <div class="form-group">
+                    <div>
+                        <textarea name="message" id="message" placeholder="Send Message..."></textarea>
+                    </div>
+                    <input type="submit" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

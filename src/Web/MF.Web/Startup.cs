@@ -3,6 +3,7 @@ namespace MF.Web
     using MF.Data;
     using MF.Data.Models;
     using MF.Services.Categories;
+    using MF.Services.Messages;
     using MF.Services.Replies;
     using MF.Services.Topics;
     using MF.Services.Users;
@@ -56,6 +57,7 @@ namespace MF.Web
             services.AddTransient<ITopicsService, TopicsService>();
             services.AddTransient<IRepliesService, RepliesService>();
             services.AddTransient<IUsersService, UsersService>();
+            services.AddTransient<IMessagesService, MessagesService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

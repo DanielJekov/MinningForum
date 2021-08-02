@@ -1,9 +1,11 @@
-﻿<div class="Row">
+﻿@model MF.Models.ViewModels.Category.CategoryCreateViewModel
+<div class="Row">
     <div class="col-md-4 text-center">
         <form method="post">
             <div class="form-group">
-                <label for="CategoryName">Category Name</label>
-                <input type="text" class="form-control" name="title" id="title" placeholder="Category name..">
+                <label asp-for="Name"></label>
+                <input asp-for="Name" class="form-control" placeholder="Category name..">
+                <span asp-validation-for="Name" class="small text-danger"></span>
                 <input type="submit" class="btn btn-primary mb-2" value="Create" />
             </div>
         </form>

@@ -1,8 +1,12 @@
 ﻿namespace MF.Web.Controllers
 {
-    using System;
+    using Microsoft.AspNetCore.Mvc;
 
     public class UsersController : BaseController
     {
+        public IActionResult Profile()
+        {
+            return this.View();
+        }
     }
 }

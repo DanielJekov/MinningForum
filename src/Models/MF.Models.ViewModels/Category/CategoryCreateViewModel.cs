@@ -9,6 +9,6 @@
         [Required]
         [MinLength(NameMinLength)]
         [MaxLength(NameMaxLength)]
-        public string Title { get; set; }
+        public string Name { get; set; }
     }
 }

@@ -6,7 +6,6 @@
 
     using MF.Data;
     using MF.Data.Models;
-    using MF.Models.ViewModels;
     using MF.Models.ViewModels.Category;
 
     public class CategoriesService : ICategoriesService
@@ -25,33 +24,9 @@
                             .Select(c => new CategoryOutputViewModel()
                             {
                                 Id = c.Id,
-                                Title = c.Title,
+                                Title = c.Name,
                             })
                             .ToList();
-        }
-
-        public int CreateCategory(CategoryCreateViewModel input, string authorId)
-        {
-            var category = new Category()
-            {
-                Title = input.Title,
-                AuthorId = authorId,
-            };
-
-            this.data.Categories.Add(category);
-            this.data.SaveChanges();
-
-            return category.Id;
-        }
-
-        public bool DeleteCategory(int categoryId)
-        {
-            var category = this.data.Categories.Find(categoryId);
-            category.IsDeleted = true;
-            category.DeletedOn = DateTime.UtcNow;
-            var isSaved = this.data.SaveChanges();
-
-            return isSaved != 0 ? true : false;
         }
 
         public CategoryOutputViewModel GetById(int categoryId)
@@ -61,9 +36,33 @@
                            .Select(c => new CategoryOutputViewModel()
                            {
                                Id = c.Id,
-                               Title = c.Title,
+                               Title = c.Name,
                            })
                            .FirstOrDefault();
+        }
+
+        public int Create(CategoryCreateViewModel input, string authorId)
+        {
+            var category = new Category()
+            {
+                Name = input.Name,
+                AuthorId = authorId,
+            };
+
+            this.data.Categories.Add(category);
+            this.data.SaveChanges();
+
+            return category.Id;
+        }
+
+        public bool Delete(int categoryId)
+        {
+            var category = this.data.Categories.Find(categoryId);
+            category.IsDeleted = true;
+            category.DeletedOn = DateTime.UtcNow;
+            var isSaved = this.data.SaveChanges();
+
+            return isSaved != 0 ? true : false;
         }
 
         public CategoryDataOutputModel Details(int categoryId)

@@ -19,10 +19,6 @@
 
         public MFUser ReportingUser { get; set; }
 
-        public int? ReportProcessDataId { get; set; }
-
-        public ReportProcessData ReportProcessData { get; set; }
-
         public DateTime CreatedOn { get; set; }
         = DateTime.UtcNow;
     }

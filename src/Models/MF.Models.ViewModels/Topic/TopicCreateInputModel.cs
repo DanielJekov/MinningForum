@@ -4,12 +4,12 @@
 
     using static MF.Models.Common.ModelValidation.Topic;
 
-    public class TopicCreateViewModel
+    public class TopicCreateInputModel
     {
         [Required]
         [MinLength(NameMinLength)]
         [MaxLength(NameMaxLength)]
-        public string Title { get; set; }
+        public string Name { get; set; }
 
         [Required]
         public int? CategoryId { get; set; }

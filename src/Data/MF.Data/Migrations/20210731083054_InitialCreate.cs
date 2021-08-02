@@ -162,27 +162,6 @@ namespace MF.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "BansData",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    BanFromDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    BanToDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    MFUserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_BansData", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_BansData_AspNetUsers_MFUserId",
-                        column: x => x.MFUserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Categories",
                 columns: table => new
                 {
@@ -207,29 +186,34 @@ namespace MF.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ReportsProcessData",
+                name: "Messages",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ReportedUserInfo = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ProccesorId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ProcessedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    Content = table.Column<string>(type: "nvarchar(450)", maxLength: 450, nullable: false),
+                    SenderId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ReceiverId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ReportsProcessData", x => x.Id);
+                    table.PrimaryKey("PK_Messages", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ReportsProcessData_AspNetUsers_ProccesorId",
-                        column: x => x.ProccesorId,
+                        name: "FK_Messages_AspNetUsers_ReceiverId",
+                        column: x => x.ReceiverId,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Messages_AspNetUsers_SenderId",
+                        column: x => x.SenderId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
-                name: "UserFollower",
+                name: "UserFollowers",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -243,15 +227,15 @@ namespace MF.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserFollower", x => x.Id);
+                    table.PrimaryKey("PK_UserFollowers", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_UserFollower_AspNetUsers_FollowedUserId",
+                        name: "FK_UserFollowers_AspNetUsers_FollowedUserId",
                         column: x => x.FollowedUserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_UserFollower_AspNetUsers_FollowerUserId",
+                        name: "FK_UserFollowers_AspNetUsers_FollowerUserId",
                         column: x => x.FollowerUserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
@@ -285,30 +269,6 @@ namespace MF.Data.Migrations
                         name: "FK_Topics_Categories_CategoryId",
                         column: x => x.CategoryId,
                         principalTable: "Categories",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "BanDataReportProcessData",
-                columns: table => new
-                {
-                    BansDataId = table.Column<int>(type: "int", nullable: false),
-                    ReportsProcessDataId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_BanDataReportProcessData", x => new { x.BansDataId, x.ReportsProcessDataId });
-                    table.ForeignKey(
-                        name: "FK_BanDataReportProcessData_BansData_BansDataId",
-                        column: x => x.BansDataId,
-                        principalTable: "BansData",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_BanDataReportProcessData_ReportsProcessData_ReportsProcessDataId",
-                        column: x => x.ReportsProcessDataId,
-                        principalTable: "ReportsProcessData",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -382,7 +342,6 @@ namespace MF.Data.Migrations
                     Content = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     TopicId = table.Column<int>(type: "int", nullable: true),
                     ReportingUserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ReportProcessDataId = table.Column<int>(type: "int", nullable: true),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
@@ -394,12 +353,6 @@ namespace MF.Data.Migrations
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_TopicReports_ReportsProcessData_ReportProcessDataId",
-                        column: x => x.ReportProcessDataId,
-                        principalTable: "ReportsProcessData",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_TopicReports_Topics_TopicId",
                         column: x => x.TopicId,
@@ -476,7 +429,6 @@ namespace MF.Data.Migrations
                     Content = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ReplyId = table.Column<int>(type: "int", nullable: false),
                     ReportingUserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ReportProcessDataId = table.Column<int>(type: "int", nullable: true),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
@@ -492,12 +444,6 @@ namespace MF.Data.Migrations
                         name: "FK_ReplyReports_Replies_ReplyId",
                         column: x => x.ReplyId,
                         principalTable: "Replies",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_ReplyReports_ReportsProcessData_ReportProcessDataId",
-                        column: x => x.ReportProcessDataId,
-                        principalTable: "ReportsProcessData",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -542,19 +488,19 @@ namespace MF.Data.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_BanDataReportProcessData_ReportsProcessDataId",
-                table: "BanDataReportProcessData",
-                column: "ReportsProcessDataId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_BansData_MFUserId",
-                table: "BansData",
-                column: "MFUserId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Categories_AuthorId",
                 table: "Categories",
                 column: "AuthorId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Messages_ReceiverId",
+                table: "Messages",
+                column: "ReceiverId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Messages_SenderId",
+                table: "Messages",
+                column: "SenderId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Replies_AuthorId",
@@ -587,16 +533,6 @@ namespace MF.Data.Migrations
                 column: "ReportingUserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ReplyReports_ReportProcessDataId",
-                table: "ReplyReports",
-                column: "ReportProcessDataId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ReportsProcessData_ProccesorId",
-                table: "ReportsProcessData",
-                column: "ProccesorId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_TopicReactions_AuthorId",
                 table: "TopicReactions",
                 column: "AuthorId");
@@ -610,11 +546,6 @@ namespace MF.Data.Migrations
                 name: "IX_TopicReports_ReportingUserId",
                 table: "TopicReports",
                 column: "ReportingUserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_TopicReports_ReportProcessDataId",
-                table: "TopicReports",
-                column: "ReportProcessDataId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_TopicReports_TopicId",
@@ -642,13 +573,13 @@ namespace MF.Data.Migrations
                 column: "TopicId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserFollower_FollowedUserId",
-                table: "UserFollower",
+                name: "IX_UserFollowers_FollowedUserId",
+                table: "UserFollowers",
                 column: "FollowedUserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserFollower_FollowerUserId",
-                table: "UserFollower",
+                name: "IX_UserFollowers_FollowerUserId",
+                table: "UserFollowers",
                 column: "FollowerUserId");
         }
 
@@ -670,7 +601,7 @@ namespace MF.Data.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "BanDataReportProcessData");
+                name: "Messages");
 
             migrationBuilder.DropTable(
                 name: "ReplyReactions");
@@ -688,19 +619,13 @@ namespace MF.Data.Migrations
                 name: "TopicsFollowings");
 
             migrationBuilder.DropTable(
-                name: "UserFollower");
+                name: "UserFollowers");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "BansData");
-
-            migrationBuilder.DropTable(
                 name: "Replies");
-
-            migrationBuilder.DropTable(
-                name: "ReportsProcessData");
 
             migrationBuilder.DropTable(
                 name: "Topics");

@@ -1,6 +1,6 @@
 ﻿namespace MF.Models.ViewModels.Topic
 {
-    public class TopicOutputViewModel
+    public class TopicViewModel
     {
         public int Id { get; set; }
 

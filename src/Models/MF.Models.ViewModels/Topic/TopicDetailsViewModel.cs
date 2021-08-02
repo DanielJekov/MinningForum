@@ -1,6 +1,6 @@
 ﻿namespace MF.Models.ViewModels.Topic
 {
-    public class TopicDetailsOutputModel
+    public class TopicDetailsViewModel
     {
         public string Title { get; set; }
 

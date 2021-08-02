@@ -1,22 +1,30 @@
 ﻿namespace MF.Web.Controllers
 {
     using System.Diagnostics;
+
     using MF.Models.ViewModels;
+    using MF.Services.Categories;
+
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
 
     public class HomeController : BaseController
     {
+        private readonly ICategoriesService categoriesService;
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(
+            ILogger<HomeController> logger,
+            ICategoriesService categoriesService)
         {
             this._logger = logger;
+            this.categoriesService = categoriesService;
         }
 
         public IActionResult Index()
         {
-            return this.View();
+            var categories = this.categoriesService.All();
+            return this.View(categories);
         }
 
         public IActionResult Privacy()

@@ -26,10 +26,16 @@
 
         public DateTime? DeletedOn { get; set; }
 
-        public virtual ICollection<BanData> Bans { get; set; }
-        = new HashSet<BanData>();
+        //public virtual ICollection<BanData> Bans { get; set; }
+        //= new HashSet<BanData>();
 
-        public virtual ICollection<UserFollower> FollowerUsers{ get; set; }
+        public virtual ICollection<Message> MessageInbox { get; set; }
+        = new HashSet<Message>();
+
+        public virtual ICollection<Message> MessageOutbox { get; set; }
+        = new HashSet<Message>();
+
+        public virtual ICollection<UserFollower> FollowerUsers { get; set; }
         = new HashSet<UserFollower>();
 
         public virtual ICollection<UserFollower> FollowedUsers { get; set; }

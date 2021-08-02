@@ -1,11 +1,12 @@
 ﻿namespace MF.Web.Controllers
 {
-    using System.Security.Claims;
-
     using MF.Models.ViewModels.Reply;
     using MF.Services.Replies;
 
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
+
+    using static MF.Common.GlobalConstants;
 
     public class RepliesController : BaseController
     {
@@ -16,44 +17,47 @@
             this.repliesService = repliesService;
         }
 
-        [Route("Category/{CategoryId}/Topic/{TopicId}")]
-        public IActionResult RepliesByTopicId(int topicId)
+        public IActionResult All(int topicId)
         {
             var authorId = this.GetUserId();
-            var replies = this.repliesService.RepliesByTopicId(topicId, authorId);
+            var replies = this.repliesService.RepliesByTopic(topicId, authorId);
+
             this.ViewBag.TopicId = topicId;
+            this.ViewBag.UserId = authorId;
 
             return this.View(replies);
         }
 
-        [Route("Category/{CategoryId}/Topic/{TopicId}/Answer")]
-        public IActionResult Create()
-        {
-            return this.View();
-        }
-
-        [HttpPost("Category/{CategoryId}/Topic/{TopicId}")]
-        public IActionResult Createe(ReplyCreateViewModel input, int categoryId)
+        [Authorize]
+        [HttpPost]
+        public IActionResult All(ReplyCreateViewModel input)
         {
             if (!this.ModelState.IsValid)
             {
-                return this.Redirect("Answer");
+                return this.RedirectToPreviousPage();
             }
 
             var authorId = this.GetUserId();
-            this.repliesService.CreateReply(input, authorId);
+            this.repliesService.Create(input, authorId);
 
-            //Have to found better way to this reddirect
-            return this.Redirect("/Category/" + categoryId.ToString() + "/Topic/" + input.TopicId.ToString() + "/");
+            return this.RedirectToPreviousPage();
         }
 
+        [Authorize]
         //Have at least one bug: anyone can delete comment !!! have to put validation for user!!!!
-        [Route("Category/{categoryId}/Topic/{TopicId}/Reply/Delete/{ReplyId}")]
-        public IActionResult DeleteTopicById(int categoryId, int topicId, int replyId)
+        public IActionResult Delete(int replyId)
         {
-            this.repliesService.DeleteReply(replyId);
+            var isServiceMember = this.User.IsInRole(AdministratorRoleName) || this.User.IsInRole(ModeratorRoleName);
+            var userId = this.GetUserId();
+            var isOwner = this.repliesService.IsOwner(userId, replyId);
+            if (!(isOwner || isServiceMember))
+            {
+                return this.RedirectToPreviousPage();
+            }
 
-            return this.Redirect("/Category/" + categoryId.ToString() + "/Topic/" + topicId.ToString() + "/");
+            this.repliesService.Delete(replyId);
+
+            return this.RedirectToPreviousPage();
         }
     }
 }

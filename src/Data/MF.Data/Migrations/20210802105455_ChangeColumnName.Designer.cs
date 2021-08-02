@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MF.Data.Migrations
 {
     [DbContext(typeof(MFDbContext))]
-    [Migration("20210726132803_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20210802105455_ChangeColumnName")]
+    partial class ChangeColumnName
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -20,44 +20,6 @@ namespace MF.Data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.8")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("BanDataReportProcessData", b =>
-                {
-                    b.Property<int>("BansDataId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ReportsProcessDataId")
-                        .HasColumnType("int");
-
-                    b.HasKey("BansDataId", "ReportsProcessDataId");
-
-                    b.HasIndex("ReportsProcessDataId");
-
-                    b.ToTable("BanDataReportProcessData");
-                });
-
-            modelBuilder.Entity("MF.Data.Models.BanData", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("BanFromDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("BanToDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("MFUserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("MFUserId");
-
-                    b.ToTable("BansData");
-                });
 
             modelBuilder.Entity("MF.Data.Models.Category", b =>
                 {
@@ -81,7 +43,7 @@ namespace MF.Data.Migrations
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Title")
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -211,6 +173,41 @@ namespace MF.Data.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("MF.Data.Models.Message", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasMaxLength(450)
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ReceiverId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("SenderId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ReceiverId");
+
+                    b.HasIndex("SenderId");
+
+                    b.ToTable("Messages");
+                });
+
             modelBuilder.Entity("MF.Data.Models.Reply", b =>
                 {
                     b.Property<int>("Id")
@@ -297,9 +294,6 @@ namespace MF.Data.Migrations
                     b.Property<int>("ReplyId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("ReportProcessDataId")
-                        .HasColumnType("int");
-
                     b.Property<string>("ReportingUserId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
@@ -308,39 +302,9 @@ namespace MF.Data.Migrations
 
                     b.HasIndex("ReplyId");
 
-                    b.HasIndex("ReportProcessDataId");
-
                     b.HasIndex("ReportingUserId");
 
                     b.ToTable("ReplyReports");
-                });
-
-            modelBuilder.Entity("MF.Data.Models.ReportProcessData", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ProccesorId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTime>("ProcessedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("ReportedUserInfo")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProccesorId");
-
-                    b.ToTable("ReportsProcessData");
                 });
 
             modelBuilder.Entity("MF.Data.Models.Topic", b =>
@@ -426,9 +390,6 @@ namespace MF.Data.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("ReportProcessDataId")
-                        .HasColumnType("int");
-
                     b.Property<string>("ReportingUserId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
@@ -437,8 +398,6 @@ namespace MF.Data.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ReportProcessDataId");
 
                     b.HasIndex("ReportingUserId");
 
@@ -515,7 +474,7 @@ namespace MF.Data.Migrations
 
                     b.HasIndex("FollowerUserId");
 
-                    b.ToTable("UserFollower");
+                    b.ToTable("UserFollowers");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -622,28 +581,6 @@ namespace MF.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("BanDataReportProcessData", b =>
-                {
-                    b.HasOne("MF.Data.Models.BanData", null)
-                        .WithMany()
-                        .HasForeignKey("BansDataId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("MF.Data.Models.ReportProcessData", null)
-                        .WithMany()
-                        .HasForeignKey("ReportsProcessDataId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("MF.Data.Models.BanData", b =>
-                {
-                    b.HasOne("MF.Data.Models.MFUser", null)
-                        .WithMany("Bans")
-                        .HasForeignKey("MFUserId");
-                });
-
             modelBuilder.Entity("MF.Data.Models.Category", b =>
                 {
                     b.HasOne("MF.Data.Models.MFUser", "Author")
@@ -651,6 +588,25 @@ namespace MF.Data.Migrations
                         .HasForeignKey("AuthorId");
 
                     b.Navigation("Author");
+                });
+
+            modelBuilder.Entity("MF.Data.Models.Message", b =>
+                {
+                    b.HasOne("MF.Data.Models.MFUser", "Receiver")
+                        .WithMany("MessageInbox")
+                        .HasForeignKey("ReceiverId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("MF.Data.Models.MFUser", "Sender")
+                        .WithMany("MessageOutbox")
+                        .HasForeignKey("SenderId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Receiver");
+
+                    b.Navigation("Sender");
                 });
 
             modelBuilder.Entity("MF.Data.Models.Reply", b =>
@@ -697,11 +653,6 @@ namespace MF.Data.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("MF.Data.Models.ReportProcessData", "ReportProcessData")
-                        .WithMany("ReplyReports")
-                        .HasForeignKey("ReportProcessDataId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
                     b.HasOne("MF.Data.Models.MFUser", "ReportingUser")
                         .WithMany("ReplyReports")
                         .HasForeignKey("ReportingUserId")
@@ -711,19 +662,6 @@ namespace MF.Data.Migrations
                     b.Navigation("Reply");
 
                     b.Navigation("ReportingUser");
-
-                    b.Navigation("ReportProcessData");
-                });
-
-            modelBuilder.Entity("MF.Data.Models.ReportProcessData", b =>
-                {
-                    b.HasOne("MF.Data.Models.MFUser", "Proccesor")
-                        .WithMany()
-                        .HasForeignKey("ProccesorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Proccesor");
                 });
 
             modelBuilder.Entity("MF.Data.Models.Topic", b =>
@@ -762,10 +700,6 @@ namespace MF.Data.Migrations
 
             modelBuilder.Entity("MF.Data.Models.TopicReport", b =>
                 {
-                    b.HasOne("MF.Data.Models.ReportProcessData", "ReportProcessData")
-                        .WithMany("TopicReports")
-                        .HasForeignKey("ReportProcessDataId");
-
                     b.HasOne("MF.Data.Models.MFUser", "ReportingUser")
                         .WithMany("TopicReports")
                         .HasForeignKey("ReportingUserId")
@@ -778,8 +712,6 @@ namespace MF.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("ReportingUser");
-
-                    b.Navigation("ReportProcessData");
 
                     b.Navigation("Topic");
                 });
@@ -880,8 +812,6 @@ namespace MF.Data.Migrations
 
             modelBuilder.Entity("MF.Data.Models.MFUser", b =>
                 {
-                    b.Navigation("Bans");
-
                     b.Navigation("Categories");
 
                     b.Navigation("Claims");
@@ -893,6 +823,10 @@ namespace MF.Data.Migrations
                     b.Navigation("FollowerUsers");
 
                     b.Navigation("Logins");
+
+                    b.Navigation("MessageInbox");
+
+                    b.Navigation("MessageOutbox");
 
                     b.Navigation("Replies");
 
@@ -914,13 +848,6 @@ namespace MF.Data.Migrations
                     b.Navigation("ReplyReactions");
 
                     b.Navigation("ReplyReports");
-                });
-
-            modelBuilder.Entity("MF.Data.Models.ReportProcessData", b =>
-                {
-                    b.Navigation("ReplyReports");
-
-                    b.Navigation("TopicReports");
                 });
 
             modelBuilder.Entity("MF.Data.Models.Topic", b =>

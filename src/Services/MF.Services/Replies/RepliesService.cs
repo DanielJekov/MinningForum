@@ -6,7 +6,6 @@
 
     using MF.Data;
     using MF.Data.Models;
-    using MF.Models.ViewModels;
     using MF.Models.ViewModels.Reply;
 
     public class RepliesService : IRepliesService
@@ -18,7 +17,7 @@
             this.data = data;
         }
 
-        public ICollection<ReplyOutputViewModel> RepliesByTopicId(int topicId, string userId)
+        public ICollection<ReplyOutputViewModel> RepliesByTopic(int topicId, string userId)
         {
 
             return this.data.Replies
@@ -35,7 +34,7 @@
                 .ToList();
         }
 
-        public void CreateReply(ReplyCreateViewModel input, string authorId)
+        public void Create(ReplyCreateViewModel input, string authorId)
         {
             var reply = new Reply()
             {
@@ -48,15 +47,31 @@
             this.data.SaveChanges();
         }
 
-        public bool DeleteReply(int replyId)
+        public bool Delete(int replyId)
         {
-            var reply = this.data.Replies.Find(replyId);
-            reply.IsDeleted = true;
-            reply.DeletedOn = DateTime.UtcNow;
+            if (!IsDeleteReply(replyId))
+            {
+                var reply = this.data.Replies.Find(replyId);
+                reply.IsDeleted = true;
+                reply.DeletedOn = DateTime.UtcNow;
+            }
 
             var isSaved = this.data.SaveChanges();
 
             return isSaved != 0 ? true : false;
+        }
+
+        public bool IsOwner(string userId, int replyId)
+        {
+            return this.data.Replies
+                             .Where(r => r.Id == replyId)
+                             .Any(x => x.Author.Id == userId);
+        }
+
+        private bool IsDeleteReply(int replyId)
+        {
+            var reply = this.data.Replies.Find(replyId);
+            return reply.IsDeleted;
         }
     }
 }

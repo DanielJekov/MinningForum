@@ -2,15 +2,16 @@
 {
     using System.Collections.Generic;
 
-    using MF.Models.ViewModels;
     using MF.Models.ViewModels.Reply;
 
     public interface IRepliesService
     {
-        public ICollection<ReplyOutputViewModel> RepliesByTopicId(int topicId, string userId);
+        public ICollection<ReplyOutputViewModel> RepliesByTopic(int topicId, string userId);
 
-        public void CreateReply(ReplyCreateViewModel input, string authorId);
+        public void Create(ReplyCreateViewModel input, string authorId);
 
-        public bool DeleteReply(int replyId);
+        public bool Delete(int replyId);
+
+        public bool IsOwner(string userId, int replyId);
     }
 }

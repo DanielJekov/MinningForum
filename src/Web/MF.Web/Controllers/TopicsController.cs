@@ -6,7 +6,10 @@
     using MF.Services.Replies;
     using MF.Services.Topics;
 
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
+
+    using static MF.Common.GlobalConstants;
 
     public class TopicsController : BaseController
     {
@@ -25,8 +28,7 @@
             this.repliesService = repliesService;
         }
 
-        [Route("Category/{CategoryId}/Topics")]
-        public IActionResult TopicsByCategoryId(int categoryId)
+        public IActionResult All(int categoryId)
         {
             var topics = this.topicsService.All(categoryId);
 
@@ -34,35 +36,67 @@
             return this.View(topics);
         }
 
-        [Route("Category/{CategoryId}/Topic/Create")]
-        public IActionResult Create()
+        [Authorize]
+        public IActionResult Create(int categoryId)
         {
-            return this.View();
+            return this.View(new TopicCreateInputModel() { CategoryId = categoryId });
         }
 
-        [HttpPost("Category/{CategoryId}/Topic/Create")]
-        public IActionResult Create(TopicCreateViewModel input)
+        [Authorize]
+        [HttpPost]
+        public IActionResult Create(TopicCreateInputModel input)
         {
             if (!this.ModelState.IsValid)
             {
                 return this.Redirect("Create");
             }
 
-            var authorId = this.GetUserId();
-            var topicId = this.topicsService.CreateTopic(input, authorId);
+            var userId = this.GetUserId();
+            var topicId = this.topicsService.Create(input, userId);
 
             var replyInputModel = new ReplyCreateViewModel() { Content = input.Content, TopicId = topicId };
-            this.repliesService.CreateReply(replyInputModel, authorId);
+            this.repliesService.Create(replyInputModel, userId);
 
-            return this.Redirect(topicId.ToString() + "/");
+            return RedirectToAction(nameof(RepliesController.All), nameof(RepliesController).Replace("Controller", string.Empty), new { topicId = topicId });
         }
 
-        [Route("Category/{CategoryId}/Topic/Delete/{TopicId}")]
-        public IActionResult DeleteTopicById(int categoryId, int topicId)
+        [Authorize]
+        public IActionResult Delete (int topicId)
         {
-            this.topicsService.DeleteTopic(topicId);
+            var isServiceMember = this.User.IsInRole(AdministratorRoleName) || this.User.IsInRole(ModeratorRoleName);
+            this.topicsService.Delete(topicId);
 
-            return this.Redirect($"/Category/{categoryId}/Topics");
+            return this.RedirectToPreviousPage();
+        }
+
+        [Authorize]
+        public IActionResult AddFollower(int topicId)
+        {
+            var userId = this.GetUserId();
+            var isFollower = this.topicsService.IsFollower(userId, topicId);
+            if (isFollower)
+            {
+                this.RedirectToAction(nameof(RepliesController.All), nameof(RepliesController).Replace("Controller", string.Empty), new { topicId = topicId });
+            }
+
+            this.topicsService.AddFollower(userId, topicId);
+
+            return this.RedirectToAction(nameof(RepliesController.All), nameof(RepliesController).Replace("Controller", string.Empty), new { topicId = topicId });
+        }
+
+        [Authorize]
+        public IActionResult RemoveFollower(int topicId)
+        {
+            var userId = this.GetUserId();
+            var isFollower = this.topicsService.IsFollower(userId, topicId);
+            if (!isFollower)
+            {
+                return this.RedirectToAction(nameof(RepliesController.All), nameof(RepliesController).Replace("Controller", string.Empty), new { topicId = topicId });
+            }
+
+            this.topicsService.RemoveFollower(userId, topicId);
+
+            return this.RedirectToAction(nameof(RepliesController.All), nameof(RepliesController).Replace("Controller", string.Empty), new { topicId = topicId });
         }
     }
 }

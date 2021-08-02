@@ -1,8 +1,8 @@
 ﻿namespace MF.Web.Controllers
 {
-    using System.Security.Claims;
     using MF.Models.ViewModels.Category;
     using MF.Services.Categories;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
     public class CategoriesController : BaseController
@@ -14,39 +14,39 @@
             this.categoriesService = categoriesService;
         }
 
-        [Route("/Categories")]
         public IActionResult All()
         {
             var categories = this.categoriesService.All();
             return this.View(categories);
         }
 
-        [Route("/Category/Create")]
+        [Authorize]
         public IActionResult Create()
         {
             return this.View();
         }
 
-        [HttpPost("/Category/Create")]
+        [Authorize]
+        [HttpPost]
         public IActionResult Create(CategoryCreateViewModel input)
         {
             if (!ModelState.IsValid)
             {
-                return this.Redirect("Create");
+                return this.RedirectToPreviousPage();
             }
 
             var authorId = this.GetUserId();
-            this.categoriesService.CreateCategory(input, authorId);
+            this.categoriesService.Create(input, authorId);
 
-            return this.Redirect("/Categories");
+            return this.RedirectToAction(nameof(All));
         }
 
-        [Route("Category/Delete/{CategoryId}")]
-        public IActionResult DeleteCategoryById(int categoryId)
+        [Authorize]
+        public IActionResult Delete(int categoryId)
         {
-            this.categoriesService.DeleteCategory(categoryId);
+            this.categoriesService.Delete(categoryId);
 
-            return this.Redirect("/Categories");
+            return this.RedirectToAction(nameof(All));
         }
     }
 }
