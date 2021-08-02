@@ -34,13 +34,13 @@
         {
             if (!this.ModelState.IsValid)
             {
-                return this.RedirectToPreviousPage();
+                return this.RedirectToAction(nameof(All), nameof(RepliesController).Replace("Controller", string.Empty), new { topicId = input.TopicId });
             }
 
             var authorId = this.GetUserId();
             this.repliesService.Create(input, authorId);
 
-            return this.RedirectToPreviousPage();
+            return this.RedirectToAction(nameof(All), nameof(RepliesController).Replace("Controller", string.Empty), new { topicId = input.TopicId });
         }
 
         [Authorize]

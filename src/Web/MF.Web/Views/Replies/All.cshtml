@@ -24,7 +24,7 @@
                 </div>
                 <div class="card-body col-12 h4">@topicDetails.Title</div>
                 <div class="card-body col-12">
-                    <a asp-fragment="Reply" class="btn btn-secondary">Reply</a>
+                    <a href="#Reply" class="btn btn-secondary">Reply</a>
                     <a asp-controller="" asp-action="" class="btn btn-primary">Like</a>
                     @if (IsFollowed)
                     {
@@ -41,7 +41,7 @@
                         <div class="card-header">
                             <div class="row">
                                 <div class="col-6">
-                                    <h6 class="float-left" id="user">@reply.Author - Beginner</h6>
+                                    <h6 class="float-left" id="User">@reply.Author - Beginner</h6>
                                 </div>
                                 <div class="col-6">
                                     <text class="float-right">@reply.CreatedOn #@reply.Id</text>
@@ -78,8 +78,8 @@
                 </div>
                 <div class="col-12">
                     <form method="post">
-                        <div>
-                            <textarea name="content" id="Reply" placeholder="Answer..."></textarea>
+                        <div id="Reply">
+                            <textarea name="content" placeholder="Reply..."></textarea>
                         </div>
                         <input type="submit" class="btn btn-primary" />
                         <hr />
