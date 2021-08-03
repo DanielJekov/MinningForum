@@ -20,7 +20,7 @@
                         <select class="form-select" name="receiverId" id="receiverId">
                             @foreach (var receiver in Model)
                             {
-                                <option value=@receiver.ReceiverId>@receiver.Username</option>
+                                <option value=@receiver.ReceiverId class="selector">@receiver.Username</option>
                             }
                         </select>
                     </div>

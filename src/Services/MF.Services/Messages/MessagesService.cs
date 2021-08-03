@@ -31,7 +31,18 @@
             return true;
         }
 
-        public ICollection<MessageViewModel> AllBetweenUsers(string senderId, string receiverId)
+        public IEnumerable<UserViewModel> GetAllUsers()
+        {
+            return this.data.Users
+                  .Select(u => new UserViewModel
+                  {
+                      ReceiverId = u.Id,
+                      Username = u.UserName,
+                  })
+                  .ToHashSet();
+        }
+
+        public ICollection<MessageViewModel> MessagesBetweenUsers(string senderId, string receiverId)
         {
             return this.data.Messages
                             .Where(m => m.Receiver.Id == receiverId && m.Sender.Id == senderId ||
@@ -47,7 +58,7 @@
                             .ToList();
         }
 
-        public IEnumerable<RoomViewModel> GetChatMembers(string userId)
+        public IEnumerable<RoomViewModel> GetRooms(string userId)
         {
             var firstHalf = this.data.Messages
                                    .Where(x => x.Receiver.Id == userId)
@@ -67,27 +78,28 @@
             var rooms = new HashSet<RoomViewModel>();
             foreach (var user in secondHalf)
             {
-                rooms.Add(this.data.Messages
+                var curr = this.data.Messages
                           .Where(m => m.Receiver.Id == userId && m.Sender.Id == user ||
                                   m.Receiver.Id == user && m.Sender.Id == userId)
                           .OrderByDescending(x => x.CreatedOn)
                           .Select(m => new RoomViewModel()
                           {
-                              Id = m.Id,
+                              RoomId = user,
                               LastMessage = m.Content,
                               LastMessageOn = m.CreatedOn,
                               SenderUsername = m.Sender.UserName,
                           })
-                          .FirstOrDefault()
-                          );
+                          .FirstOrDefault();
+
+                curr.RoomName = this.data.Users
+                    .Where(x => x.Id == user)
+                    .Select(x => x.UserName)
+                    .FirstOrDefault();
+
+                rooms.Add(curr);
             }
 
             return rooms;
-        }
-
-        public ICollection<DiscuseViewModel> Rooms(string userId)
-        {
-            return null;
         }
     }
 }

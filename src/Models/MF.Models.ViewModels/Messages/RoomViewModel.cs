@@ -1,16 +1,20 @@
 ﻿namespace MF.Models.ViewModels.Messages
 {
+    using Ganss.XSS;
+
     using System;
 
     public class RoomViewModel
     {
-        public int Id { get; set; }
+        public string RoomId { get; set; }
 
         public string RoomName { get; set; }
 
         public string SenderUsername { get; set; }
 
         public string LastMessage { get; set; }
+
+        public string LastMessageSanitized => new HtmlSanitizer().Sanitize(this.LastMessage);
 
         public DateTime LastMessageOn { get; set; }
     }

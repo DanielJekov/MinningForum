@@ -1,23 +1,35 @@
-﻿@model ICollection<MF.Models.ViewModels.Messages.DiscuseViewModel>
-<div class="row">
-    <div class="col-md-1"></div>
-    <div class="col-md-10">
-        <br>
-        @if (!Model.Any())
-        {
-            <h3 class="text-center">There are not any messages.</h3>
-        }
-        else
-        {
-            @foreach (var discuse in Model)
+﻿@model ICollection<MF.Models.ViewModels.Messages.RoomViewModel>
+<div class="container-fluid mt-100">
+    <div class="row">
+        <div class="col-md-5">
+            <br>
+            @if (!Model.Any())
             {
-                <div class="card-body">
-                    @discuse.Content
-                    @discuse.CreatedOn
-                    @discuse.SenderUsername
-                </div><br>
+                <h3 class="text-center">There are not any messages.</h3>
             }
-        }
+            else
+            {
+                @foreach (var discuse in Model)
+                {
+                    <div class="card-header">
+                        <div class="card">
+                            <span class="h6">
+                                <a href="/Messages/PrivateChat/?receiverId=@discuse.RoomId" class="text-dark" style="text-decoration: none">
+                                    @discuse.RoomName
+                                </a>
+                                <span class="small text-secondary"></span>
+                            </span>
+                            <div class="text-decoration-underline">@discuse.LastMessageOn.ToString("HH:mm dd.MM.yyyy") @discuse.SenderUsername:</div>
+                            <div class="small">@Html.Raw(discuse.LastMessageSanitized)  </div>
+                            <a href="/Messages/PrivateChat/?receiverId=asdh12j3h12j3h21j3123" class="text-dark" style="text-decoration: none">
+                                <span class="small">
+
+                                </span>
+                            </a>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
     </div>
-    <div class="col-md-1"></div>
 </div>

@@ -1,9 +1,6 @@
 ﻿namespace MF.Web.Controllers
 {
-    using System.Linq;
-
     using MF.Data;
-    using MF.Models.ViewModels;
     using MF.Services.Messages;
 
     using Microsoft.AspNetCore.Authorization;
@@ -23,32 +20,36 @@
         }
 
         [Authorize]
-        public IActionResult Chat()
+        public IActionResult New()
         {
-            var userId = this.GetUserId();
-            var chatMembers = this.messagesService.GetChatMembers(userId);
+            var users = this.messagesService.GetAllUsers();
 
-            return this.View(chatMembers);
+            return this.View(users);
+        }
+
+        [Authorize]
+        [HttpPost]
+        public IActionResult New(string receiverId, string message)
+        {
+            var senderId = this.GetUserId();
+            this.messagesService.New(senderId, receiverId, message);
+
+            return this.RedirectToAction(nameof(New));
         }
 
         [Authorize]
         public IActionResult PrivateChat(string receiverId)
         {
-            if (!this.data.Users.Any(x => x.Id == receiverId) ||
-                !this.data.Users.Any(x => x.MessageOutbox.Any(x => x.Receiver.Id == receiverId) ||
-                !this.data.Users.Any(x => x.MessageInbox.Any(x => x.Receiver.Id == receiverId))))
-            {
-                return this.Redirect("/Messages/New/");
-            }
 
             var senderId = this.GetUserId();
-            var messages = this.messagesService.AllBetweenUsers(senderId, receiverId);
+            var messages = this.messagesService.MessagesBetweenUsers(senderId, receiverId);
             foreach (var msg in messages)
             {
                 msg.CurrUser = this.data.Users.Find(senderId).UserName;
             }
 
             this.ViewBag.UserId = senderId;
+
             return this.View(messages);
         }
 
@@ -65,32 +66,9 @@
         public IActionResult Rooms()
         {
             var userId = this.GetUserId();
-            var rooms = this.messagesService.Rooms(userId);
+            var rooms = this.messagesService.GetRooms(userId);
+
             return this.View(rooms);
-        }
-
-        [Authorize]
-        public IActionResult New()
-        {
-            var users = this.data.Users
-                .Select(u => new UserViewModel
-                {
-                    ReceiverId = u.Id,
-                    Username = u.UserName,
-                })
-                .ToList();
-
-            return this.View(users);
-        }
-
-        [Authorize]
-        [HttpPost]
-        public IActionResult New(string receiverId, string message)
-        {
-            var senderId = this.GetUserId();
-            this.messagesService.New(senderId, receiverId, message);
-
-            return this.Redirect("/Messages/Rooms/");
         }
     }
 }

@@ -8,10 +8,10 @@
     {
         public bool New(string senderId, string receiverId, string content);
 
-        public ICollection<MessageViewModel> AllBetweenUsers(string senderId, string receiverId);
+        public ICollection<MessageViewModel> MessagesBetweenUsers(string senderId, string receiverId);
 
-        public ICollection<DiscuseViewModel> Rooms(string userId);
+        public IEnumerable<RoomViewModel> GetRooms(string userId);
 
-        public IEnumerable<RoomViewModel> GetChatMembers(string userId);
+        public IEnumerable<UserViewModel> GetAllUsers();
     }
 }
