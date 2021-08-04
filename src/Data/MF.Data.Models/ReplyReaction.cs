@@ -1,7 +1,6 @@
 ﻿namespace MF.Data.Models
 {
     using System;
-    using System.Collections.Generic;
 
     using MF.Data.Common.Models;
     using MF.Data.Models.Enums;

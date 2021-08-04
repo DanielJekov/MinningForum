@@ -3,7 +3,9 @@
     using System;
     using System.ComponentModel.DataAnnotations;
 
-    public class TopicReport
+    using MF.Data.Common.Models;
+
+    public class TopicReport : IAuditInfo
     {
         public int Id { get; set; }
 
@@ -21,5 +23,7 @@
 
         public DateTime CreatedOn { get; set; }
         = DateTime.UtcNow;
+
+        public DateTime? ModifiedOn { get; set; }
     }
 }

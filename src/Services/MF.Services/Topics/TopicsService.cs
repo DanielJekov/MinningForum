@@ -25,12 +25,12 @@
             return this.data.Topics
                     .Where(t => t.Category.Id == categoryId)
                     .Where(t => t.IsDeleted == false)
-                    .Select(t => new TopicViewModel()
+                    .Select(topic => new TopicViewModel()
                     {
-                        Id = t.Id,
-                        Name = t.Title,
-                        AuthorUsername = t.Author.UserName,
-                        LastReplyInfo = t.Replies
+                        Id = topic.Id,
+                        Name = topic.Name,
+                        AuthorUsername = topic.Author.UserName,
+                        LastReplyInfo = topic.Replies
                                          .OrderByDescending(r => r.CreatedOn)
                                          .Select(r => new LastReplyInfo()
                                          {
@@ -38,9 +38,9 @@
                                              CreatedOn = r.CreatedOn,
                                          })
                                          .FirstOrDefault(),
-                        PublishedOn = t.CreatedOn,
-                        RepliesCount = t.Replies.Count,
-                        ReactionsCount = t.TopicReactions.Count,
+                        PublishedOn = topic.CreatedOn,
+                        RepliesCount = topic.Replies.Count,
+                        ReactionsCount = topic.TopicReactions.Count,
                     })
                     .ToList();
         }
@@ -49,7 +49,7 @@
         {
             var topic = new Topic()
             {
-                Title = input.Name,
+                Name = input.Name,
                 CategoryId = input.CategoryId.Value,
                 AuthorId = authorId,
             };
@@ -80,7 +80,7 @@
                  .Include(t => t.Replies.Where(x => x.IsDeleted == false))
                  .Select(t => new TopicDetailsViewModel()
                  {
-                     Title = t.Title,
+                     Title = t.Name,
                      FirstPublish = t.Replies.Where(x => x.IsDeleted == false).OrderBy(x => x.CreatedOn).Select(x => x.CreatedOn).First().ToString(dateFormat),
                      LastPublish = t.Replies.Where(x => x.IsDeleted == false).OrderByDescending(x => x.CreatedOn).Select(x => x.CreatedOn).First().ToString(dateFormat),
 

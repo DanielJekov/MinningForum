@@ -5,13 +5,13 @@
 
     using MF.Data.Common.Models;
 
-    public class TopicsFollowings : IAuditInfo
+    public class CategoryFollowing : IAuditInfo
     {
         public int Id { get; set; }
 
-        public int TopicId { get; set; }
+        public int CategoryId { get; set; }
 
-        public Topic Topic { get; set; }
+        public Category Category { get; set; }
 
         [Required]
         public string FollowerId { get; set; }

@@ -26,9 +26,6 @@
 
         public DateTime? DeletedOn { get; set; }
 
-        //public virtual ICollection<BanData> Bans { get; set; }
-        //= new HashSet<BanData>();
-
         public virtual ICollection<Message> MessageInbox { get; set; }
         = new HashSet<Message>();
 
@@ -41,14 +38,17 @@
         public virtual ICollection<UserFollower> FollowedUsers { get; set; }
         = new HashSet<UserFollower>();
 
-        public virtual ICollection<TopicsFollowings> FollowedTopics { get; set; }
-         = new HashSet<TopicsFollowings>();
-
         public virtual ICollection<Category> Categories { get; set; }
         = new HashSet<Category>();
 
+        public ICollection<CategoryFollowing> FollowedCategories { get; set; }
+        = new HashSet<CategoryFollowing>();
+
         public virtual ICollection<Topic> Topics { get; set; }
          = new HashSet<Topic>();
+
+        public virtual ICollection<TopicsFollowings> FollowedTopics { get; set; }
+         = new HashSet<TopicsFollowings>();
 
         public virtual ICollection<TopicReaction> TopicReactions { get; set; }
         = new HashSet<TopicReaction>();

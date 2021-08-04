@@ -5,7 +5,7 @@
 
     using MF.Data.Common.Models;
 
-    public class Message : IAuditInfo
+    public class Message : IAuditInfo, IDeletableEntity
     {
         public int Id { get; set; }
 
@@ -27,5 +27,9 @@
         = DateTime.UtcNow;
 
         public DateTime? ModifiedOn { get; set; }
+
+        public bool IsDeleted { get; set; }
+
+        public DateTime? DeletedOn { get; set; }
     }
 }

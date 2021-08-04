@@ -11,7 +11,17 @@
                         <a asp-controller="Topics" asp-action="All" asp-route-categoryId="@Model.Id" class="text-dark">@Model.Name</a>
                         /
                     </div>
-                    <div class="col-8 h5">@Model.Name</div>
+                    <div class="col-8 h5">
+                        <span class="text">@Model.Name</span>
+                        @if (false)
+                        {
+                            <a asp-controller="Categories" asp-action="RemoveFollower" asp-route-topicId="" class="btn border-secondary">Unfollow</a>
+                        }
+                        else
+                        {
+                            <a asp-controller="Categories" asp-action="AddFollower" asp-route-topicId="" class="btn btn-outline-secondary border-secondary">Follow</a>
+                        }
+                    </div>
                     <div class="col-4 text-right">
                         <span class="small text-secondary">Topics: @Model.TopicsCount Participants: @Model.ParticipantsCount</span>
                     </div>
@@ -21,15 +31,7 @@
             <table class="table">
                 <thead>
                     <p>
-                        <a asp-controller="Topics" asp-action="Create" asp-route-categoryId="@Model.Id" class="btn btn-secondary">New Topic</a>
-                        @if (false)
-                        {
-                            <a asp-controller="Topics" asp-action="RemoveFollower" asp-route-topicId="" class="btn btn">Unfollow</a>
-                        }
-                        else
-                        {
-                            <a asp-controller="Topics" asp-action="AddFollower" asp-route-topicId="" class="btn btn border-secondary">Follow</a>
-                        }
+                        <a asp-controller="Topics" asp-action="Create" asp-route-categoryId="@Model.Id" class="btn btn-success">New Topic</a>
                     </p>
                 </thead>
                 <tbody>

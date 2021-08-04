@@ -28,5 +28,8 @@
 
         public ICollection<Topic> Topics { get; set; }
         = new HashSet<Topic>();
+
+        public ICollection<CategoryFollowing> Followers { get; set; }
+        = new HashSet<CategoryFollowing>();
     }
 }

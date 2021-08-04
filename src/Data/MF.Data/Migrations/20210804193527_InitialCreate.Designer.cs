@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MF.Data.Migrations
 {
     [DbContext(typeof(MFDbContext))]
-    [Migration("20210802105455_ChangeColumnName")]
-    partial class ChangeColumnName
+    [Migration("20210804193527_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -52,6 +52,35 @@ namespace MF.Data.Migrations
                     b.HasIndex("AuthorId");
 
                     b.ToTable("Categories");
+                });
+
+            modelBuilder.Entity("MF.Data.Models.CategoryFollowing", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("FollowerId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
+
+                    b.HasIndex("FollowerId");
+
+                    b.ToTable("CategoryFollowings");
                 });
 
             modelBuilder.Entity("MF.Data.Models.MFRole", b =>
@@ -188,6 +217,12 @@ namespace MF.Data.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
+                    b.Property<DateTime?>("DeletedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
 
@@ -291,6 +326,9 @@ namespace MF.Data.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
                     b.Property<int>("ReplyId")
                         .HasColumnType("int");
 
@@ -332,7 +370,7 @@ namespace MF.Data.Migrations
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Title")
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -390,6 +428,9 @@ namespace MF.Data.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("ReportingUserId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
@@ -416,15 +457,9 @@ namespace MF.Data.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime?>("DeletedOn")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("FollowerId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
 
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
@@ -451,9 +486,6 @@ namespace MF.Data.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime?>("DeletedOn")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("FollowedUserId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
@@ -461,9 +493,6 @@ namespace MF.Data.Migrations
                     b.Property<string>("FollowerUserId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
 
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
@@ -588,6 +617,25 @@ namespace MF.Data.Migrations
                         .HasForeignKey("AuthorId");
 
                     b.Navigation("Author");
+                });
+
+            modelBuilder.Entity("MF.Data.Models.CategoryFollowing", b =>
+                {
+                    b.HasOne("MF.Data.Models.Category", "Category")
+                        .WithMany("Followers")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MF.Data.Models.MFUser", "Follower")
+                        .WithMany("FollowedCategories")
+                        .HasForeignKey("FollowerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+
+                    b.Navigation("Follower");
                 });
 
             modelBuilder.Entity("MF.Data.Models.Message", b =>
@@ -807,6 +855,8 @@ namespace MF.Data.Migrations
 
             modelBuilder.Entity("MF.Data.Models.Category", b =>
                 {
+                    b.Navigation("Followers");
+
                     b.Navigation("Topics");
                 });
 
@@ -815,6 +865,8 @@ namespace MF.Data.Migrations
                     b.Navigation("Categories");
 
                     b.Navigation("Claims");
+
+                    b.Navigation("FollowedCategories");
 
                     b.Navigation("FollowedTopics");
 

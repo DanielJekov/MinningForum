@@ -5,7 +5,7 @@
 
     using MF.Data.Common.Models;
 
-    public class UserFollower : IAuditInfo, IDeletableEntity
+    public class UserFollower : IAuditInfo
     {
         public int Id { get; set; }
 
@@ -18,10 +18,6 @@
         public string FollowerUserId { get; set; }
 
         public MFUser FollowerUser { get; set; }
-
-        public bool IsDeleted { get; set; }
-
-        public DateTime? DeletedOn { get; set; }
 
         public DateTime CreatedOn { get; set; }
 
