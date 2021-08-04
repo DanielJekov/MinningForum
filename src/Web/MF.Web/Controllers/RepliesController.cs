@@ -47,7 +47,7 @@
         //Have at least one bug: anyone can delete comment !!! have to put validation for user!!!!
         public IActionResult Delete(int replyId)
         {
-            var isServiceMember = this.User.IsInRole(AdministratorRoleName) || this.User.IsInRole(ModeratorRoleName);
+            var isServiceMember = this.User.IsInRole(AdministratorRoleName);
             var userId = this.GetUserId();
             var isOwner = this.repliesService.IsOwner(userId, replyId);
             if (!(isOwner || isServiceMember))

@@ -64,7 +64,7 @@
         [Authorize]
         public IActionResult Delete (int topicId)
         {
-            var isServiceMember = this.User.IsInRole(AdministratorRoleName) || this.User.IsInRole(ModeratorRoleName);
+            var isServiceMember = this.User.IsInRole(AdministratorRoleName);
             this.topicsService.Delete(topicId);
 
             return this.RedirectToPreviousPage();
