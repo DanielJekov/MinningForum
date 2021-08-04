@@ -6,7 +6,6 @@
     using MF.Data;
     using MF.Data.Models;
     using MF.Models.ViewModels.Messages;
-    using Microsoft.EntityFrameworkCore;
 
     public class MessagesService : IMessagesService
     {
@@ -25,6 +24,7 @@
                 SenderId = senderId,
                 ReceiverId = receiverId,
             };
+
             this.data.Messages.Add(message);
             this.data.SaveChanges();
 

@@ -65,9 +65,17 @@
             return isSaved != 0 ? true : false;
         }
 
-        public CategoryDataOutputModel Details(int categoryId)
+        public CategoryDetailsViewModel GetDetails(int categoryId)
         {
-            throw new NotImplementedException();
+            return this.data.Categories
+                .Where(c => c.Id == categoryId)
+                .Select(c => new CategoryDetailsViewModel()
+                {
+                    Id = c.Id,
+                    Name = c.Name,
+                    ParticipantsCount = 0,
+                })
+                .FirstOrDefault();
         }
     }
 }

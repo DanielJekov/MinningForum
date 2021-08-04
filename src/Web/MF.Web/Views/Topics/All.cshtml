@@ -1,38 +1,77 @@
-﻿@model ICollection<MF.Models.ViewModels.Topic.TopicViewModel>
-<div class="row">
-    <div class="col-md-1"></div>
-    <div class="col-md-10">
-        <span class="h6">
-            <a class=" text-decoration-none" href="/Categories/All">Categories</a> /
-            <a class=" text-decoration-none" href="/Categories/@ViewBag.CategoryId/Topics/">Category custom name</a> /
-            <a class=" text-decoration-none" href="/Topics/All">Topics</a> /
-            Gluposti Here
-        </span>
-        <br>
-        <br>
-        <table class="table">
-            <thead>
-                <tr>
-                    <td class="font-weight-bold">Topic</td>
-                    <td>
-                        <a asp-controller="Topics" asp-action="Create" asp-route-categoryId="@ViewBag.CategoryId" class="btn btn-primary float-md-right">New Topic</a>
-                    </td>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var topic in Model)
-                {
-                    <tr>
-                        <td>
-                            <a asp-controller="Replies" asp-action="All" asp-route-topicId="@topic.Id" class=" text-dark text-decoration-none float-md-left">@topic.Title</a>
-                        </td>
-                        <td>
-                            <a asp-controller="Topics" asp-action="Delete" asp-route-topicId="@topic.Id" class="btn btn-danger float-md-right">Delete</a>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+﻿@model MF.Models.ViewModels.Category.CategoryDetailsViewModel
+<div class="container-fluid mt-100">
+    <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-10">
+            <div class="bg-light">
+                <div class="row">
+                    <div class="card-body col-12 small">
+                        <a asp-controller="Categories" asp-action="All" class="text-dark">Categories</a>
+                        /
+                        <a asp-controller="Topics" asp-action="All" asp-route-categoryId="@Model.Id" class="text-dark">@Model.Name</a>
+                        /
+                    </div>
+                    <div class="col-8 h5">@Model.Name</div>
+                    <div class="col-4 text-right">
+                        <span class="small text-secondary">Topics: @Model.TopicsCount Participants: @Model.ParticipantsCount</span>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <table class="table">
+                <thead>
+                    <p>
+                        <a asp-controller="Topics" asp-action="Create" asp-route-categoryId="@Model.Id" class="btn btn-secondary">New Topic</a>
+                        @if (false)
+                        {
+                            <a asp-controller="Topics" asp-action="RemoveFollower" asp-route-topicId="" class="btn btn">Unfollow</a>
+                        }
+                        else
+                        {
+                            <a asp-controller="Topics" asp-action="AddFollower" asp-route-topicId="" class="btn btn border-secondary">Follow</a>
+                        }
+                    </p>
+                </thead>
+                <tbody>
+                    @foreach (var topic in Model.Topics)
+                    {
+                        <tr class="text-left">
+                            <td>
+                                <div>
+                                    <a asp-controller="Replies" asp-action="All" asp-route-topicId="@topic.Id" class="text-dark text-decoration-none">@topic.Name</a>
+                                </div>
+                                <div class="small text-secondary">
+                                    Author:
+                                    <a href="" class="text-dark">@topic.AuthorUsername</a>
+                                    , Created On @topic.PublishedOn
+                                </div>
+                            </td>
+                            <td>
+                                <div class="text-secondary text-center">Views</div>
+                                <div class="small text-secondary text-center">@topic.ViewsCount</div>
+                            </td>
+                            <td>
+                                <div class="text-secondary  text-center">Coments</div>
+                                <div class="small  text-secondary text-center">@topic.RepliesCount</div>
+                            </td>
+                            <td>
+                                <div class="text-secondary text-center">Reactions</div>
+                                <div class="small text-secondary text-center">@topic.ReactionsCount</div>
+                            </td>
+                            <td>
+                                <div class="small  text-secondary">
+                                    last reply: @topic.LastReplyInfo.CreatedOn
+                                </div>
+                                <div class="small  text-secondary">
+                                    from:
+                                    <a href="#" class="text-dark">@topic.LastReplyInfo.AuthorUsername</a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-1"></div>
     </div>
-    <div class="col-md-1"></div>
 </div>

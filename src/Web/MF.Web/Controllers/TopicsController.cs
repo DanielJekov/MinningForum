@@ -30,10 +30,11 @@
 
         public IActionResult All(int categoryId)
         {
+            var categoryDetails = this.categoriesService.GetDetails(categoryId);
             var topics = this.topicsService.All(categoryId);
+            categoryDetails.Topics = topics;
 
-            this.ViewBag.CategoryId = categoryId;
-            return this.View(topics);
+            return this.View(categoryDetails);
         }
 
         [Authorize]

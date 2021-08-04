@@ -6,6 +6,7 @@
 
     using MF.Data;
     using MF.Data.Models;
+    using MF.Models.ViewModels.Reply;
     using MF.Models.ViewModels.Topic;
 
     using Microsoft.EntityFrameworkCore;
@@ -27,7 +28,19 @@
                     .Select(t => new TopicViewModel()
                     {
                         Id = t.Id,
-                        Title = t.Title,
+                        Name = t.Title,
+                        AuthorUsername = t.Author.UserName,
+                        LastReplyInfo = t.Replies
+                                         .OrderByDescending(r => r.CreatedOn)
+                                         .Select(r => new LastReplyInfo()
+                                         {
+                                             AuthorUsername = r.Author.UserName,
+                                             CreatedOn = r.CreatedOn,
+                                         })
+                                         .FirstOrDefault(),
+                        PublishedOn = t.CreatedOn,
+                        RepliesCount = t.Replies.Count,
+                        ReactionsCount = t.TopicReactions.Count,
                     })
                     .ToList();
         }

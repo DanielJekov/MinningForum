@@ -12,6 +12,8 @@
 
         public CategoryOutputViewModel GetById(int categoryId);
 
+        public CategoryDetailsViewModel GetDetails(int categoryId);
+
         public int Create(CategoryCreateViewModel input, string authorId);
 
         public bool Delete(int categoryId);

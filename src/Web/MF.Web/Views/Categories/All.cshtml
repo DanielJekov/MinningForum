@@ -1,6 +1,6 @@
 ﻿<div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-8">
+    <div class="col-1"></div>
+    <div class="col-10">
         <ol class="breadcrumb decoration-none">
             <li><a asp-controller="Categories" asp-action="All">Categories</a></li>
         </ol>
@@ -9,7 +9,7 @@
             <thead>
                 <tr>
                     <td class="font-weight-bold">Categories</td>
-                    <td> <a asp-controller="Categories" asp-action="Create" class="btn btn-primary float-md-right">New Category</a></td>
+                    <td> <a asp-controller="Categories" asp-action="Create" class="btn btn-primary float-right">New Category</a></td>
                 </tr>
             </thead>
             <tbody>
@@ -20,12 +20,12 @@
                             <a asp-controller="Topics" asp-action="All" asp-route-categoryId="@category.Id" class="text-dark text-decoration-none">@category.Title</a>
                         </td>
                         <td>
-                            <a asp-controller="Categories" asp-action="Delete" asp-route-categoryId="@category.Id" class="btn btn-danger float-md-right">Delete</a>
+                            <a asp-controller="Categories" asp-action="Delete" asp-route-categoryId="@category.Id" class="btn btn-danger float-right">Delete</a>
                         </td>
                     </tr>
                 }
             </tbody>
         </table>
     </div>
-    <div class="col-md-2"></div>
+    <div class="col-1"></div>
 </div>    

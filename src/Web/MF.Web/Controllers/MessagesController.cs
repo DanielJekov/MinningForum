@@ -34,7 +34,7 @@
             var senderId = this.GetUserId();
             this.messagesService.New(senderId, receiverId, message);
 
-            return this.RedirectToAction(nameof(New));
+            return this.RedirectToAction(nameof(PrivateChat), new { receiverId = receiverId });
         }
 
         [Authorize]
