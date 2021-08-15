@@ -14,8 +14,8 @@
         private readonly ILogger<HomeController> _logger;
 
         public HomeController(
-            ILogger<HomeController> logger,
-            ICategoriesService categoriesService)
+                              ILogger<HomeController> logger,
+                              ICategoriesService categoriesService)
         {
             this._logger = logger;
             this.categoriesService = categoriesService;
@@ -23,7 +23,7 @@
 
         public IActionResult Index()
         {
-            var categories = this.categoriesService.All();
+            var categories = this.categoriesService.GetAll();
             return this.View(categories);
         }
 
@@ -35,7 +35,7 @@
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
-            return this.View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            return this.View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? this.HttpContext.TraceIdentifier });
         }
     }
 }

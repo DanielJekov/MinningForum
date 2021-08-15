@@ -45,8 +45,8 @@
         public ICollection<MessageViewModel> MessagesBetweenUsers(string senderId, string receiverId)
         {
             return this.data.Messages
-                            .Where(m => m.Receiver.Id == receiverId && m.Sender.Id == senderId ||
-                                    m.Receiver.Id == senderId && m.Sender.Id == receiverId)
+                            .Where(m => (m.Receiver.Id == receiverId && m.Sender.Id == senderId) ||
+                                        (m.Receiver.Id == senderId && m.Sender.Id == receiverId))
                             .Select(m => new MessageViewModel()
                             {
                                 Id = m.Id,
@@ -79,8 +79,8 @@
             foreach (var user in secondHalf)
             {
                 var curr = this.data.Messages
-                          .Where(m => m.Receiver.Id == userId && m.Sender.Id == user ||
-                                  m.Receiver.Id == user && m.Sender.Id == userId)
+                          .Where(m => (m.Receiver.Id == userId && m.Sender.Id == user) ||
+                                  (m.Receiver.Id == user && m.Sender.Id == userId))
                           .OrderByDescending(x => x.CreatedOn)
                           .Select(m => new RoomViewModel()
                           {

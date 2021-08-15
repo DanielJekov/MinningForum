@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Categories\" />
+    <Folder Include="Messages\" />
+    <Folder Include="Replies\" />
+    <Folder Include="ReplyReports\" />
+    <Folder Include="TopicReports\" />
+    <Folder Include="Topics\" />
+  </ItemGroup>
+
+</Project>

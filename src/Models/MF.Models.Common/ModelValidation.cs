@@ -18,6 +18,9 @@
         {
             public const int NameMinLength = 2;
             public const int NameMaxLength = 100;
+
+            public const int ContentMinLength = 9;
+            public const int ContentMaxLength = 1000;
         }
 
         public static class Reply

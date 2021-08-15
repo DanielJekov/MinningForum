@@ -1,7 +1,8 @@
 ﻿namespace MF.Web.Controllers
 {
-    using MF.Models.ViewModels.Reply;
+    using MF.Models.ViewModels.Replies;
     using MF.Services.Replies;
+    using MF.Services.Topics;
 
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
@@ -11,53 +12,80 @@
     public class RepliesController : BaseController
     {
         private readonly IRepliesService repliesService;
+        private readonly ITopicsService topicsService;
 
-        public RepliesController(IRepliesService repliesService)
+        public RepliesController(
+                                 IRepliesService repliesService,
+                                 ITopicsService topicsService)
         {
             this.repliesService = repliesService;
+            this.topicsService = topicsService;
         }
 
         public IActionResult All(int topicId)
         {
-            var authorId = this.GetUserId();
-            var replies = this.repliesService.RepliesByTopic(topicId, authorId);
+            var isTopicExist = this.topicsService.IsExist(topicId);
+            if (!isTopicExist)
+            {
+                return this.BadRequest();
+            }
 
-            this.ViewBag.TopicId = topicId;
-            this.ViewBag.UserId = authorId;
+            var userId = this.GetUserId();
+            var viewModel = this.topicsService.GetDetails(topicId, userId);
 
-            return this.View(replies);
+            viewModel.Replies = this.repliesService.GetRepliesByTopic(topicId, userId);
+
+            return this.View(viewModel);
         }
 
-        [Authorize]
         [HttpPost]
-        public IActionResult All(ReplyCreateViewModel input)
+        [Authorize]
+        public IActionResult Create(ReplyCreateInputModel input)
         {
             if (!this.ModelState.IsValid)
             {
-                return this.RedirectToAction(nameof(All), nameof(RepliesController).Replace("Controller", string.Empty), new { topicId = input.TopicId });
+                this.TempData[GlobalMessageFailure] = this.ModelStateErrorCollector();
+                return this.RedirectToAction(nameof(this.All), new { topicId = input.TopicId });
+            }
+
+            var isQuoteReplyExist = this.repliesService.IsExist(input.QuoteReplyId.Value);
+
+            if (!isQuoteReplyExist)
+            {
+                input.QuoteReplyId = null;
             }
 
             var authorId = this.GetUserId();
             this.repliesService.Create(input, authorId);
 
-            return this.RedirectToAction(nameof(All), nameof(RepliesController).Replace("Controller", string.Empty), new { topicId = input.TopicId });
+            return this.RedirectToAction(
+                                         nameof(this.All),
+                                         nameof(RepliesController).Replace("Controller", string.Empty),
+                                         new { topicId = input.TopicId },
+                                         "Reply");
         }
 
+        [HttpPost]
         [Authorize]
-        //Have at least one bug: anyone can delete comment !!! have to put validation for user!!!!
         public IActionResult Delete(int replyId)
         {
-            var isServiceMember = this.User.IsInRole(AdministratorRoleName);
+            var isReplyExist = this.repliesService.IsExist(replyId);
+            if (!isReplyExist)
+            {
+                return this.BadRequest();
+            }
+
             var userId = this.GetUserId();
             var isOwner = this.repliesService.IsOwner(userId, replyId);
-            if (!(isOwner || isServiceMember))
+            var topicId = this.topicsService.GetIdByReplyId(replyId);
+            if (!isOwner && !this.User.IsInRole(AdministratorRoleName))
             {
-                return this.RedirectToPreviousPage();
+                return this.BadRequest();
             }
 
             this.repliesService.Delete(replyId);
 
-            return this.RedirectToPreviousPage();
+            return this.RedirectToAction(nameof(this.All), new { topicId });
         }
     }
 }

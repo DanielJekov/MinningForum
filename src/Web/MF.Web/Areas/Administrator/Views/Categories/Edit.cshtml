@@ -1,0 +1,19 @@
+﻿@model MF.Models.ViewModels.Categories.CategoryEditViewModel
+
+<div class="row">
+    <div class="col-1"></div>
+    <div class="col-10">
+        <label>Old Name</label>
+        <input class="form-control bg-transparent" value="@Model.Name" readonly />
+        <br>
+        <form asp-area="Administrator" asp-controller="Categories" asp-action="Edit" method="post">
+            <div class="form-group">
+                <input type="hidden" name="Id" value="@Model.Id">
+                <input class="form-control" name="NewName" placeholder="Fill new category name..">
+                <br>
+                <input type="submit" class="btn btn-primary mb-4" value="Save" />
+            </div>
+        </form>
+    </div>
+    <div class="col-1"></div>
+</div>

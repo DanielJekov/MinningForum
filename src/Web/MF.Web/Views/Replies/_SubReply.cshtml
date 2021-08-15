@@ -1,0 +1,25 @@
+﻿@model MF.Models.ViewModels.Replies.QuoteReplyViewModel
+<br>
+<blockquote class="blockquote-footer">
+    <div class="row">
+        <div class="col-1"></div>
+        <div class="col-10">
+            <div class="card-header row">
+                <div class="col-6 text-left">@Model.Author</div>
+                <div class="col-6 text-right">@Model.CreatedOn</div>
+            </div>
+            <div class="card row">
+                <div class="media flex-wrap w-100 align-items-center">
+                    <div class="card-body col-2">
+                        <img src="https://thumbs.dreamstime.com/z/vector-illustration-faceless-man-suit-tie-65138894.jpg" class=" d-block ui-w-40 rounded-circle" width="50" height="50" alt="...">
+                    </div>
+                    <div class="card-body col-10">
+                        @Html.Raw(Model.SanitizedContent)
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-1"></div>
+    </div>
+</blockquote>
+

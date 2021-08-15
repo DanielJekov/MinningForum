@@ -5,9 +5,9 @@
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-    public class TopicsFollowingsConfiguration : IEntityTypeConfiguration<TopicsFollowings>
+    public class TopicsFollowingsConfiguration : IEntityTypeConfiguration<TopicFollower>
     {
-        public void Configure(EntityTypeBuilder<TopicsFollowings> entity)
+        public void Configure(EntityTypeBuilder<TopicFollower> entity)
         {
             entity
                  .HasOne(e => e.Topic)
@@ -18,7 +18,6 @@
                 .HasOne(e => e.Follower)
                 .WithMany(e => e.FollowedTopics)
                 .HasForeignKey(e => e.FollowerId);
-
         }
     }
 }

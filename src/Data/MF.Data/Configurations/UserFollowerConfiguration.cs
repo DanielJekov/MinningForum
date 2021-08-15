@@ -11,15 +11,22 @@
         {
             follower
                 .HasOne(ff => ff.FollowerUser)
-                .WithMany(ff => ff.FollowerUsers)
-                .HasForeignKey(ff => ff.FollowerUserId)
+                .WithMany(ff => ff.Followers)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            follower
-                .HasOne(ff => ff.FollowedUser)
-                .WithMany(ff => ff.FollowedUsers)
-                .HasForeignKey(ff => ff.FollowedUserId)
-                .OnDelete(DeleteBehavior.Restrict);
+            // userFollower
+            //             .HasOne(uf => uf.User)
+            //             .WithMany(u => u.Followers)
+            //             .HasForeignKey(uf => uf.UserId)
+            //             .IsRequired()
+            //             .OnDelete(DeleteBehavior.Restrict);
+
+            // userFollower
+            //             .HasOne(uf => uf.Follower)
+            //             .WithMany()
+            //             .HasForeignKey(uf => uf.FollowerId)
+            //             .IsRequired()
+            //             .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

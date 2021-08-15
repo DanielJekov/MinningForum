@@ -32,23 +32,20 @@
         public virtual ICollection<Message> MessageOutbox { get; set; }
         = new HashSet<Message>();
 
-        public virtual ICollection<UserFollower> FollowerUsers { get; set; }
-        = new HashSet<UserFollower>();
-
-        public virtual ICollection<UserFollower> FollowedUsers { get; set; }
+        public virtual ICollection<UserFollower> Followers { get; set; }
         = new HashSet<UserFollower>();
 
         public virtual ICollection<Category> Categories { get; set; }
         = new HashSet<Category>();
 
-        public ICollection<CategoryFollowing> FollowedCategories { get; set; }
-        = new HashSet<CategoryFollowing>();
+        public virtual ICollection<CategoryFollower> FollowedCategories { get; set; }
+        = new HashSet<CategoryFollower>();
 
         public virtual ICollection<Topic> Topics { get; set; }
          = new HashSet<Topic>();
 
-        public virtual ICollection<TopicsFollowings> FollowedTopics { get; set; }
-         = new HashSet<TopicsFollowings>();
+        public virtual ICollection<TopicFollower> FollowedTopics { get; set; }
+         = new HashSet<TopicFollower>();
 
         public virtual ICollection<TopicReaction> TopicReactions { get; set; }
         = new HashSet<TopicReaction>();

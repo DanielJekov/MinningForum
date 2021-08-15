@@ -1,0 +1,42 @@
+﻿@model ICollection<MF.Models.ViewModels.Categories.CategoryViewModel>
+<div class="row">
+    <div class="col-1"></div>
+    <div class="col-10">
+        <div>
+            <a asp-area="@AdministratorRoleName" asp-controller="Categories" asp-action="Create" class="btn btn-success">
+                New Category
+            </a>
+        </div>
+        <br>
+        <table class="table">
+            <tbody>
+                @foreach (var category in Model)
+                {
+                    <tr>
+                        <td>
+                            <a asp-area="" asp-controller="Topics" asp-action="All" asp-route-categoryId="@category.Id" class="text-dark text-decoration-none">@category.Name</a>
+                        </td>
+                        <td>
+                            <form asp-area="@AdministratorRoleName" asp-controller="Categories" asp-action="Edit" method="get" class="card-body float-right">
+                                <input type="hidden" name="Id" value="@category.Id" />
+                                <input type="hidden" name="Name" value="@category.Name" />
+                                <button class="border-0 bg-transparent">
+                                    <i class="fas fa-edit text-dark"></i>
+                                </button>
+                            </form>
+                        </td>
+                        <td>
+                            <form asp-area="@AdministratorRoleName" asp-controller="Categories" asp-action="Delete" method="post" class="card-body float-right">
+                                <input type="hidden" name="categoryId" value="@category.Id" />
+                                <button class="border-0 bg-transparent">
+                                    <i class="far fa-trash-alt text-danger "></i>
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="col-1"></div>
+</div>

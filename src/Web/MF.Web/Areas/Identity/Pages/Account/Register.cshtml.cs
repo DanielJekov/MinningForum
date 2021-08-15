@@ -1,6 +1,5 @@
 ﻿namespace MF.Web.Areas.Identity.Pages.Account
 {
-    using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.Linq;
@@ -11,8 +10,6 @@
     using MF.Data.Models;
     using MF.Data.Models.Enums;
 
-    using static MF.Models.Common.ModelValidation.User;
-
     using Microsoft.AspNetCore.Authentication;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
@@ -21,6 +18,8 @@
     using Microsoft.AspNetCore.Mvc.RazorPages;
     using Microsoft.AspNetCore.WebUtilities;
     using Microsoft.Extensions.Logging;
+
+    using static MF.Models.Common.ModelValidation.User;
 
     [AllowAnonymous]
     public class RegisterModel : PageModel

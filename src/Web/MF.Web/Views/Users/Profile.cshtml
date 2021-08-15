@@ -1,0 +1,77 @@
+﻿@model MF.Models.ViewModels.Users.UserProfileViewModel
+<div class="container-fluid mt-100">
+    <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-10">
+            <br>
+            <div class="bg-light">
+                <div class="row">
+                    <div class="card-body col-2">
+                        <img src="https://www.w3schools.com/howto/img_avatar.png" alt="Alternate Text" width="100" height="100" />
+                    </div>
+                    <div class="card-body col-3">
+                        <p class="h6">@Model.Username</p>
+                        <span class="h6">Rank - </span>
+                        <span>Newbie</span>
+                    </div>
+                    <div class="card-body col-3">
+                        <span class="text">Followers: </span>
+                        <span>@Model.FollowersCount</span>
+                    </div>
+                    <div class="card-body col-4 text-right">
+                        @if (Model.IsFollowed)
+                        {
+                            <a asp-controller="Users" asp-action="RemoveFollower" asp-route-userId="@Model.Id" class="btn btn-outline-secondary border-secondary">Unfollow</a>
+                        }
+                        else
+                        {
+                            <a asp-controller="Users" asp-action="AddFollower" asp-route-userId="@Model.Id" class="btn btn-outline-secondary border-secondary">Follow</a>
+
+                        }
+                        <a asp-controller="Messages" asp-action="PrivateChat" asp-route-receiverId="@Model.Id" class="btn btn-success">Message</a>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <br>
+            <div>
+                <p class="h6">Forum Activity</p>
+                <div class="card text-center">
+                    <div class="row">
+                        <div class=" card-body  col-4">
+                            Registered: @Model.JoinDate
+                        </div>
+                        <div class="  card-body  col-4">
+                            Replies:
+                            @Model.RepliesCount
+                        </div>
+                        <div class="  card-body col-4">
+                            Last Active
+                            @Model.LastActivity
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <br>
+            <div class="row">
+                <div class="col-4">
+                    <div class="h6">Personal Info</div>
+                    <hr>
+                    <div>@Model.Gender</div>
+                    <hr>
+                    <div>@Model.Location</div>
+                    <hr>
+                </div>
+                <div class="col-8 h6">
+                    <div class="row">
+                        <div class="col-6">Followings</div>
+                        <div class="col-6 text-right small">Participants</div>
+                    </div>
+                    <hr>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-1"></div>
+    </div>
+</div>

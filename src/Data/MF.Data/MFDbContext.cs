@@ -14,11 +14,11 @@
 
         public DbSet<Category> Categories { get; set; }
 
-        public DbSet<CategoryFollowing> CategoryFollowings { get; set; }
+        public DbSet<CategoryFollower> CategoryFollowers { get; set; }
 
         public DbSet<Topic> Topics { get; set; }
 
-        public DbSet<TopicsFollowings> TopicsFollowings { get; set; }
+        public DbSet<TopicFollower> TopicFollowers { get; set; }
 
         public DbSet<TopicReaction> TopicReactions { get; set; }
 

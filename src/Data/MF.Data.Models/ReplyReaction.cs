@@ -23,6 +23,5 @@
         = DateTime.UtcNow;
 
         public DateTime? ModifiedOn { get; set; }
-
     }
 }

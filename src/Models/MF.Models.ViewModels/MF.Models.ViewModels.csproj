@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="TopicReportViewModel.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="stylecop.json" />
   </ItemGroup>
 
@@ -21,6 +25,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Data\MF.Data.Models\MF.Data.Models.csproj" />
     <ProjectReference Include="..\MF.Models.Common\MF.Models.Common.csproj" />
   </ItemGroup>
 

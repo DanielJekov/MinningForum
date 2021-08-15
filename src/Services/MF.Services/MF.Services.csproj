@@ -23,7 +23,6 @@
     <ProjectReference Include="..\..\Data\MF.Data.Common\MF.Data.Common.csproj" />
     <ProjectReference Include="..\..\Data\MF.Data.Models\MF.Data.Models.csproj" />
     <ProjectReference Include="..\..\Data\MF.Data\MF.Data.csproj" />
-    <ProjectReference Include="..\..\Models\MF.Models.InputModels\MF.Models.InputModels.csproj" />
     <ProjectReference Include="..\..\Models\MF.Models.ViewModels\MF.Models.ViewModels.csproj" />
   </ItemGroup>
 

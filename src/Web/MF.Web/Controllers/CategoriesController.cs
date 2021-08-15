@@ -1,6 +1,5 @@
 ﻿namespace MF.Web.Controllers
 {
-    using MF.Models.ViewModels.Category;
     using MF.Services.Categories;
 
     using Microsoft.AspNetCore.Authorization;
@@ -15,39 +14,56 @@
             this.categoriesService = categoriesService;
         }
 
-        public IActionResult All()
-        {
-            var categories = this.categoriesService.All();
-            return this.View(categories);
-        }
-
-        [Authorize]
-        public IActionResult Create()
-        {
-            return this.View();
-        }
-
-        [Authorize]
         [HttpPost]
-        public IActionResult Create(CategoryCreateViewModel input)
+        [Authorize]
+        public IActionResult Follow(int categoryId)
         {
-            if (!ModelState.IsValid)
+            var isExist = this.categoriesService.IsExist(categoryId);
+            if (isExist)
             {
-                return this.RedirectToPreviousPage();
+                return this.BadRequest();
             }
 
-            var authorId = this.GetUserId();
-            this.categoriesService.Create(input, authorId);
+            var userId = this.GetUserId();
+            var isFollower = this.categoriesService.IsFollower(userId, categoryId);
 
-            return this.RedirectToAction(nameof(All));
+            if (isFollower)
+            {
+                return this.BadRequest();
+            }
+
+            this.categoriesService.AddFollower(categoryId, userId);
+
+            return this.RedirectToAction(
+                                         nameof(TopicsController.All),
+                                         nameof(TopicsController).Replace("Controller", string.Empty),
+                                         new { categoryId });
         }
 
+        [HttpPost]
         [Authorize]
-        public IActionResult Delete(int categoryId)
+        public IActionResult Unfollow(int categoryId)
         {
-            this.categoriesService.Delete(categoryId);
+            var isExist = this.categoriesService.IsExist(categoryId);
+            if (isExist)
+            {
+                return this.BadRequest();
+            }
 
-            return this.RedirectToAction(nameof(All));
+            var userId = this.GetUserId();
+            var isFollower = this.categoriesService.IsFollower(userId, categoryId);
+
+            if (!isFollower)
+            {
+                return this.BadRequest();
+            }
+
+            this.categoriesService.RemoveFollower(categoryId, userId);
+
+            return this.RedirectToAction(
+                                         nameof(TopicsController.All),
+                                         nameof(TopicsController).Replace("Controller", string.Empty),
+                                         new { categoryId });
         }
     }
 }

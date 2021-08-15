@@ -6,7 +6,9 @@
 
     using MF.Data;
     using MF.Data.Models;
-    using MF.Models.ViewModels.Reply;
+    using MF.Data.Models.Enums;
+    using MF.Models.ViewModels.Reactions;
+    using MF.Models.ViewModels.Replies;
 
     public class RepliesService : IRepliesService
     {
@@ -17,61 +19,155 @@
             this.data = data;
         }
 
-        public ICollection<ReplyOutputViewModel> RepliesByTopic(int topicId, string userId)
+        public void Create(ReplyCreateInputModel input, string authorId)
         {
+            var quoteReply = this.data.Replies.FirstOrDefault(r => r.Id == input.QuoteReplyId);
 
-            return this.data.Replies
-                .Where(r => r.Topic.Id == topicId)
-                .Where(r => r.IsDeleted == false)
-                .Select(r => new ReplyOutputViewModel()
-                {
-                    Id = r.Id,
-                    Content = r.Content,
-                    Author = r.Author.UserName,
-                    CreatedOn = r.CreatedOn.ToString("dd.MM.yyyy HH:mm"),
-                    IsUserOwnReply = r.Author.Id == userId,
-                })
-                .ToList();
-        }
-
-        public void Create(ReplyCreateViewModel input, string authorId)
-        {
-            var reply = new Reply()
+            if (quoteReply == null)
             {
-                Content = input.Content,
-                AuthorId = authorId,
-                TopicId = input.TopicId.Value,
-            };
+                var reply = new Reply()
+                {
+                    Content = input.Content,
+                    AuthorId = authorId,
+                    TopicId = input.TopicId.Value,
+                };
 
-            this.data.Replies.Add(reply);
-            this.data.SaveChanges();
+                this.data.Replies.Add(reply);
+                this.data.SaveChanges();
+            }
+            else
+            {
+                var reply = new Reply()
+                {
+                    Content = input.Content,
+                    AuthorId = authorId,
+                    TopicId = input.TopicId.Value,
+                    QuoteReplyId = input.QuoteReplyId,
+                };
+
+                this.data.Replies.Add(reply);
+                this.data.SaveChanges();
+            }
         }
 
         public bool Delete(int replyId)
         {
-            if (!IsDeleteReply(replyId))
+            var reply = this.data.Replies
+                                 .Where(r => r.IsDeleted == false &&
+                                             r.Id == replyId)
+                                 .FirstOrDefault();
+
+            if (reply == null)
             {
-                var reply = this.data.Replies.Find(replyId);
-                reply.IsDeleted = true;
-                reply.DeletedOn = DateTime.UtcNow;
+                return false;
             }
 
-            var isSaved = this.data.SaveChanges();
+            reply.IsDeleted = true;
+            reply.DeletedOn = DateTime.UtcNow;
+            this.data.SaveChanges();
 
-            return isSaved != 0 ? true : false;
+            return true;
+        }
+
+        public void Edit(int replyId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ICollection<ReplyViewModel> GetRepliesByTopic(int topicId, string userId)
+        {
+            return this.data.Replies
+                            .Where(r => r.Topic.Id == topicId)
+                            .Where(r => r.IsDeleted == false)
+                            .Select(r => new ReplyViewModel()
+                            {
+                                Id = r.Id,
+                                Content = r.Content,
+                                Author = r.Author.UserName,
+                                CreatedOn = r.CreatedOn,
+                                IsUserOwner = r.Author.Id == userId,
+                                QuoteReply = r.QuoteReply != null ? new QuoteReplyViewModel
+                                {
+                                    Author = r.QuoteReply.Author.UserName,
+                                    Content = r.QuoteReply.Content,
+                                    CreatedOn = r.QuoteReply.CreatedOn,
+                                }
+                                : null,
+                                ReactionsCount = new ReactionsCountViewModel
+                                {
+                                    Like = r.ReplyReactions.Where(x => x.ReactionType == ReactionType.Like).Count(),
+                                    Love = r.ReplyReactions.Where(x => x.ReactionType == ReactionType.Love).Count(),
+                                    Funny = r.ReplyReactions.Where(x => x.ReactionType == ReactionType.Funny).Count(),
+                                    Angry = r.ReplyReactions.Where(x => x.ReactionType == ReactionType.Angry).Count(),
+                                    Sad = r.ReplyReactions.Where(x => x.ReactionType == ReactionType.Sad).Count(),
+                                },
+                            })
+                            .ToList();
+        }
+
+        public bool IsExist(int replyId)
+        {
+            return this.data.Replies
+                            .Where(r => r.IsDeleted == false)
+                            .Any(r => r.Id == replyId);
         }
 
         public bool IsOwner(string userId, int replyId)
         {
             return this.data.Replies
-                             .Where(r => r.Id == replyId)
-                             .Any(x => x.Author.Id == userId);
+                            .Where(r => r.Id == replyId)
+                            .Any(x => x.Author.Id == userId);
         }
 
-        private bool IsDeleteReply(int replyId)
+        public void AddReaction(string userId, int replyId, ReactionType reaction)
         {
-            var reply = this.data.Replies.Find(replyId);
-            return reply.IsDeleted;
+            var replyReacion = new ReplyReaction()
+            {
+                ReactionType = reaction,
+                ReplyId = replyId,
+                AuthorId = userId,
+            };
+
+            this.data.ReplyReactions.Add(replyReacion);
+            this.data.SaveChanges();
+        }
+
+        public void RemoveReaction(string userId, int replyId)
+        {
+            var reaction = this.data.ReplyReactions
+                                    .FirstOrDefault(x => x.Author.Id == userId &&
+                                                         x.Reply.Id == replyId);
+            this.data.ReplyReactions.Remove(reaction);
+            this.data.SaveChanges();
+        }
+
+        public void ChangeReaction(string userId, int replyId, ReactionType reaction)
+        {
+            var replyReaction = this.data.ReplyReactions
+                                    .FirstOrDefault(x => x.Author.Id == userId &&
+                                                         x.Reply.Id == replyId);
+            replyReaction.ReactionType = reaction;
+            this.data.SaveChanges();
+        }
+
+        public bool IsReacted(string userId, int replyId)
+        {
+            var reaction = this.data.ReplyReactions
+                                    .FirstOrDefault(x => x.Author.Id == userId &&
+                                                         x.Reply.Id == replyId);
+
+            return reaction != null;
+        }
+
+        public bool IsSameReaction(string userId, int replyId, ReactionType reaction)
+        {
+            var replyReaction = this.data.ReplyReactions
+                                         .Where(x => x.Author.Id == userId &&
+                                                     x.Reply.Id == replyId)
+                                         .Select(x => x.ReactionType)
+                                         .FirstOrDefault();
+
+            return (int)replyReaction == (int)reaction;
         }
     }
 }

@@ -1,8 +1,8 @@
 ﻿namespace MF.Models.ViewModels.Messages
 {
-    using Ganss.XSS;
-
     using System;
+
+    using Ganss.XSS;
 
     public class RoomViewModel
     {

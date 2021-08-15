@@ -19,13 +19,13 @@
                 .WithOne(r => r.Reply)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            //Possible problems with DeleteBehavior !
+             // Possible problems with DeleteBehavior !
             reply
                .HasOne(r => r.Author)
                .WithMany(r => r.Replies)
                .OnDelete(DeleteBehavior.SetNull);
 
-            //Possible problems with DeleteBehavior !
+            // Possible problems with DeleteBehavior !
             reply
                .HasOne(r => r.Topic)
                .WithMany(r => r.Replies)

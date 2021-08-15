@@ -1,0 +1,48 @@
+﻿<table class="table">
+    <tbody>
+        @foreach (var topic in Model)
+        {
+            <tr class="text-left">
+                <td>
+                    <div>
+                        <a asp-controller="Replies" asp-action="All" asp-route-topicId="@topic.Id" class="text-dark text-decoration-none">@topic.Name</a>
+                    </div>
+                    <div class="small text-secondary">
+                        Author:
+                        <a asp-controller="Users" asp-action="Details" asp-route-userId="@topic.AuthorId" class="text-dark">@topic.AuthorUsername</a>
+                        , Created On @topic.PublishedOn
+                    </div>
+                </td>
+                <td>
+                    <div class="text-secondary text-center">Views</div>
+                    <div class="small text-secondary text-center">@topic.ViewsCount</div>
+                </td>
+                <td>
+                    <div class="text-secondary  text-center">Coments</div>
+                    <div class="small  text-secondary text-center">@topic.RepliesCount</div>
+                </td>
+                <td>
+                    <div class="text-secondary text-center">Reactions</div>
+                    <div class="small text-secondary text-center">@topic.ReactionsCount</div>
+                </td>
+                <td>
+                    <div class="small  text-secondary">
+                        Last reply: @topic.LastReplyInfo.CreatedOn
+                    </div>
+                    <div class="small  text-secondary">
+                        from:
+                        <a asp-controller="Users" asp-action="Details" asp-route-userId="@topic.LastReplyInfo.AuthorId" class="text-dark">@topic.LastReplyInfo.AuthorUsername</a>
+                    </div>
+                </td>
+                <td>
+                    <form asp-controller="TopicReports" asp-action="Create" asp-route-id="@topic.Id" method="get">
+                        <input type="hidden" name="name" value="@topic.Name" />
+                        <button class="border-0 bg-transparent">
+                            <i class="fas fa-flag text-dark float-right"></i>
+                        </button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

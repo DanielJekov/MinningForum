@@ -1,0 +1,15 @@
+﻿@model ICollection<MF.Models.ViewModels.Categories.CategoryViewModel>
+
+<li class="dropdown">
+    <a class="nav-link text-dark" role="button" id="categoriesDropDown" data-bs-toggle="dropdown" aria-expanded="false">
+        <span>Categories</span>
+    </a>
+    <ul class="dropdown-menu">
+        @foreach (var category in Model)
+        {
+            <li>
+                <a asp-area="" asp-controller="Topics" asp-action="All" asp-route-categoryId="@category.Id" class="dropdown-item">@category.Name</a>
+            </li>
+        }
+    </ul>
+</li>

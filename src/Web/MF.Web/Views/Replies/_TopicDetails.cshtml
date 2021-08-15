@@ -1,0 +1,50 @@
+﻿@model MF.Models.ViewModels.Topics.TopicRepliesViewModel
+<div class="card-header">
+    <div class="small">
+        <a asp-controller="Categories" asp-action="All" class="text-dark">Categories</a>
+        /
+        <a asp-controller="Topics" asp-action="All" asp-route-categoryId="" class="text-dark">Topic</a>
+        /
+        <a asp-controller="Topics" asp-action="All" asp-route-categoryId="" class="text-dark">CUrr TOpic</a>
+        /
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-6">
+            <div class="card small float-left bg-transparent border-0">Published: @Model.CreatedOn</div>
+        </div>
+        <div class="col-6">
+            <div class="card small float-right  bg-transparent border-0">Last update: @Model.LastReplyOn</div>
+        </div>
+    </div>
+    <br>
+    <div class="h4">@Model.Name</div>
+    <br>
+    @if (this.User.Identity.IsAuthenticated)
+    {
+        <a asp-route-topicId="@Model.Id" asp-fragment="Reply" class="btn btn-success">Reply</a>
+        @if (Model.IsFollowed)
+        {
+            <form asp-controller="Topics" asp-action="RemoveFollower" method="post" class="d-inline">
+                <input type="hidden" name="topicId" value="@Model.Id" />
+                <button class="btn btn-light btn-outline-secondary">Unfollow</button>
+            </form>
+        }
+        else
+        {
+            <form asp-controller="Topics" asp-action="AddFollower" method="post" class="d-inline">
+                <input type="hidden" name="topicId" value="@Model.Id" />
+                <button class="btn btn-secondary">Follow</button>
+            </form>
+        }
+
+        <partial name="_TopicReactions" model="@Model" />
+    }
+    <form asp-controller="TopicReports" asp-action="Create" asp-route-id="@Model.Id" method="get" class="d-inline float-right">
+        <input type="hidden" name="name" value="@Model.Name" />
+        <button class="border-0 bg-transparent">
+            <i class="fas fa-flag text-dark"></i>
+        </button>
+    </form>
+</div>
+<br>

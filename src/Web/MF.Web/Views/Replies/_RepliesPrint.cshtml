@@ -1,0 +1,55 @@
+﻿@model ICollection<MF.Models.ViewModels.Replies.ReplyViewModel>
+@foreach (var reply in Model)
+{
+    <div class="card-header">
+        <div class="row">
+            <div class="col-6">
+                <h6 class="float-left" id="User">@reply.Author - Beginner</h6>
+            </div>
+            <div class="col-6">
+                <text class="float-right">@reply.CreatedOn</text>
+            </div>
+        </div>
+    </div>
+    <div class="card border-top-0">
+        <div class="row">
+            <div class="media flex-wrap w-100 align-items-center">
+                <div class="card-body col-2">
+                    <img src="https://thumbs.dreamstime.com/z/vector-illustration-faceless-man-suit-tie-65138894.jpg" class=" d-block ui-w-40 rounded-circle" width="75" height="75" alt="...">
+                </div>
+                <div class="card-text col-10">
+                    @if (reply.QuoteReply != null)
+                    {
+                        <partial name="_SubReply" model="reply.QuoteReply" />
+                    }
+                    <div class="card-body">@Html.Raw(reply.SanitizedContent)</div>
+                    <div class="card-body col-12">
+                        @if (reply.IsUserOwner)
+                        {
+                            <form asp-controller="Replies" asp-action="Delete" method="post" class="card-body float-right">
+                                <input type="hidden" name="replyId" value="@reply.Id" />
+                                <button class="border-0 bg-transparent">
+                                    <i class="far fa-trash-alt text-danger "></i>
+                                </button>
+                            </form>
+                        }
+                        <a asp-controller="ReplyReports" asp-action="Create" asp-route-id="@reply.Id" class="card-body float-right">
+                            <i class="fas fa-flag text-dark"></i>
+                        </a>
+                        @if (this.User.Identity.IsAuthenticated)
+                        {
+                            <a href="#CreateReply" class="card-body float-right" onclick="QuoteReply(@reply.Id)">
+                                <i class="fas fa-quote-right text-secondary"></i>
+                            </a>
+
+                            <partial name="_ReplyReactions" model="@reply" />
+                        }
+                    </div>
+                    <br>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+    <br>
+}

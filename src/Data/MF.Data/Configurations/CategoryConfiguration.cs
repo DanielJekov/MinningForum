@@ -9,15 +9,15 @@
     {
         public void Configure(EntityTypeBuilder<Category> category)
         {
-            //category
-            //        .HasMany(c => c.Topics)
-            //        .WithOne(c => c.Category)
-            //        .OnDelete(DeleteBehavior.Restrict);
+            // category
+            //         .HasMany(c => c.Topics)
+            //         .WithOne(c => c.Category)
+            //         .OnDelete(DeleteBehavior.Restrict);
 
-            //category
-            //       .HasOne(c => c.Author)
-            //       .WithMany(c => c.Categories)
-            //       .OnDelete(DeleteBehavior.SetNull);
+            // category
+            //        .HasOne(c => c.Author)
+            //        .WithMany(c => c.Categories)
+            //        .OnDelete(DeleteBehavior.SetNull);
         }
     }
 }

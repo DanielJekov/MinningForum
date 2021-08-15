@@ -11,7 +11,6 @@
     {
         public async Task SeedAsync(MFDbContext dbContext, IServiceProvider serviceProvider)
         {
-
             if (dbContext == null)
             {
                 throw new ArgumentNullException(nameof(dbContext));

@@ -1,0 +1,37 @@
+﻿<div class="card-header">
+    <div class="row">
+        <div class="card-body col-12 small">
+            <a asp-controller="Categories" asp-action="All" class="text-dark">Categories</a>
+            /
+            <a asp-controller="Topics" asp-action="All" asp-route-categoryId="@Model.Id" class="text-dark">@Model.Name</a>
+            /
+        </div>
+        <div class="col-8 h5">
+            <div class="text">@Model.Name</div>
+            <br>
+            <a asp-controller="Topics" asp-action="Create" asp-route-categoryId="@Model.Id" class="btn btn-success">
+                New Topic
+            </a>
+            @if (this.User.Identity.IsAuthenticated)
+            {
+                if (Model.IsFollowed)
+                {
+                    <form asp-controller="Categories" asp-action="Unfollow" method="post" class="d-inline">
+                        <input type="hidden" name="categoryId" value="@Model.Id" />
+                        <button class="btn border-secondary"> Unfollow</button>
+                    </form>
+                }
+                else
+                {
+                    <form asp-controller="Categories" asp-action="Follow" method="post" class="d-inline">
+                        <input type="hidden" name="categoryId" value="@Model.Id" />
+                        <button class="btn btn-secondary">Follow</button>
+                    </form>
+                }
+            }
+        </div>
+        <div class="col-4 text-right">
+            <span class="small text-secondary">Topics: @Model.TopicsCount Participants: @Model.ParticipantsCount</span>
+        </div>
+    </div>
+</div>

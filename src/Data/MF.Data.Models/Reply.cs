@@ -21,6 +21,10 @@
 
         public Topic Topic { get; set; }
 
+        public int? QuoteReplyId { get; set; }
+
+        public Reply QuoteReply { get; set; }
+
         public DateTime CreatedOn { get; set; }
         = DateTime.UtcNow;
 
@@ -34,6 +38,6 @@
         = new HashSet<ReplyReaction>();
 
         public virtual ICollection<ReplyReport> ReplyReports { get; set; }
-       = new HashSet<ReplyReport>();
+        = new HashSet<ReplyReport>();
     }
 }

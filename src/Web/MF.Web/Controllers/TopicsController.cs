@@ -1,7 +1,7 @@
 ﻿namespace MF.Web.Controllers
 {
-    using MF.Models.ViewModels.Reply;
-    using MF.Models.ViewModels.Topic;
+    using MF.Models.ViewModels.Replies;
+    using MF.Models.ViewModels.Topics;
     using MF.Services.Categories;
     using MF.Services.Replies;
     using MF.Services.Topics;
@@ -13,91 +13,150 @@
 
     public class TopicsController : BaseController
     {
+        private readonly IRepliesService repliesService;
         private readonly ITopicsService topicsService;
         private readonly ICategoriesService categoriesService;
-        private readonly IRepliesService repliesService;
 
         public TopicsController(
-            ITopicsService topicsService,
-            ICategoriesService categoriesService,
-            IRepliesService repliesService
-            )
+                                IRepliesService repliesService,
+                                ITopicsService topicsService,
+                                ICategoriesService categoriesService)
         {
+            this.repliesService = repliesService;
             this.topicsService = topicsService;
             this.categoriesService = categoriesService;
-            this.repliesService = repliesService;
         }
 
         public IActionResult All(int categoryId)
         {
-            var categoryDetails = this.categoriesService.GetDetails(categoryId);
-            var topics = this.topicsService.All(categoryId);
-            categoryDetails.Topics = topics;
+            var isCategoryExist = this.categoriesService.IsExist(categoryId);
+            if (!isCategoryExist)
+            {
+                return this.BadRequest();
+            }
 
-            return this.View(categoryDetails);
+            var userId = this.GetUserId();
+            var viewModel = this.categoriesService.GetDetails(userId, categoryId);
+            viewModel.Topics = this.topicsService.GetTopicsByCategory(categoryId);
+
+            return this.View(viewModel);
         }
 
         [Authorize]
         public IActionResult Create(int categoryId)
         {
+            var isCategoryExist = this.categoriesService.IsExist(categoryId);
+            if (!isCategoryExist)
+            {
+                return this.BadRequest();
+            }
+
             return this.View(new TopicCreateInputModel() { CategoryId = categoryId });
         }
 
-        [Authorize]
         [HttpPost]
+        [Authorize]
         public IActionResult Create(TopicCreateInputModel input)
         {
             if (!this.ModelState.IsValid)
             {
-                return this.Redirect("Create");
+                this.TempData[GlobalMessageFailure] = this.ModelStateErrorCollector();
+                return this.Redirect("/");
+            }
+
+            var isCategoryExist = this.categoriesService.IsExist(input.CategoryId.Value);
+            if (!isCategoryExist)
+            {
+                return this.BadRequest();
             }
 
             var userId = this.GetUserId();
             var topicId = this.topicsService.Create(input, userId);
 
-            var replyInputModel = new ReplyCreateViewModel() { Content = input.Content, TopicId = topicId };
+            var replyInputModel = new ReplyCreateInputModel() { Content = input.Content, TopicId = topicId };
             this.repliesService.Create(replyInputModel, userId);
 
-            return RedirectToAction(nameof(RepliesController.All), nameof(RepliesController).Replace("Controller", string.Empty), new { topicId = topicId });
+            return this.RedirectToAction(
+                                         nameof(RepliesController.All),
+                                         nameof(RepliesController).Replace("Controller", string.Empty),
+                                         new { topicId });
         }
 
+        [HttpPost]
         [Authorize]
-        public IActionResult Delete (int topicId)
+        public IActionResult Delete(int topicId)
         {
-            var isServiceMember = this.User.IsInRole(AdministratorRoleName);
+            var isExist = this.topicsService.IsExist(topicId);
+            if (!isExist)
+            {
+                return this.BadRequest();
+            }
+
+            var userId = this.GetUserId();
+            var isUserOwner = this.topicsService.IsOwner(userId, topicId);
+            if (!isUserOwner && !this.User.IsInRole(AdministratorRoleName))
+            {
+                return this.BadRequest();
+            }
+
             this.topicsService.Delete(topicId);
 
-            return this.RedirectToPreviousPage();
+            var categoryId = this.categoriesService.GetIdByTopicId(topicId);
+            return this.RedirectToAction(nameof(this.All), new { categoryId });
         }
 
+        [HttpPost]
         [Authorize]
-        public IActionResult AddFollower(int topicId)
+        public IActionResult Follow(int topicId)
         {
+            var isTopicExist = this.topicsService.IsExist(topicId);
+
+            if (!isTopicExist)
+            {
+                return this.BadRequest();
+            }
+
             var userId = this.GetUserId();
             var isFollower = this.topicsService.IsFollower(userId, topicId);
             if (isFollower)
             {
-                this.RedirectToAction(nameof(RepliesController.All), nameof(RepliesController).Replace("Controller", string.Empty), new { topicId = topicId });
+                return this.BadRequest();
             }
 
             this.topicsService.AddFollower(userId, topicId);
 
-            return this.RedirectToAction(nameof(RepliesController.All), nameof(RepliesController).Replace("Controller", string.Empty), new { topicId = topicId });
+            return this.RedirectToAction(
+                                         nameof(RepliesController.All),
+                                         nameof(RepliesController).Replace("Controller", string.Empty),
+                                         new { topicId });
         }
 
+        [HttpPost]
         [Authorize]
-        public IActionResult RemoveFollower(int topicId)
+        public IActionResult Unfollow(int topicId)
         {
+            var isTopicExist = this.topicsService.IsExist(topicId);
+            if (!isTopicExist)
+            {
+                return this.BadRequest();
+            }
+
             var userId = this.GetUserId();
             var isFollower = this.topicsService.IsFollower(userId, topicId);
             if (!isFollower)
             {
-                return this.RedirectToAction(nameof(RepliesController.All), nameof(RepliesController).Replace("Controller", string.Empty), new { topicId = topicId });
+                return this.RedirectToAction(
+                                             nameof(RepliesController.All),
+                                             nameof(RepliesController).Replace("Controller", string.Empty),
+                                             new { topicId });
             }
 
             this.topicsService.RemoveFollower(userId, topicId);
 
-            return this.RedirectToAction(nameof(RepliesController.All), nameof(RepliesController).Replace("Controller", string.Empty), new { topicId = topicId });
+            return this.RedirectToAction(
+                                         nameof(RepliesController.All),
+                                         nameof(RepliesController).Replace("Controller", string.Empty),
+                                         new { topicId });
         }
     }
 }

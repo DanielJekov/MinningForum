@@ -43,7 +43,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Models\MF.Models.InputModels\MF.Models.InputModels.csproj" />
     <ProjectReference Include="..\..\Models\MF.Models.ViewModels\MF.Models.ViewModels.csproj" />
     <ProjectReference Include="..\..\Services\MF.Services\MF.Services.csproj" />
     <ProjectReference Include="..\MF.Web.Infrastructure\MF.Web.Infrastructure.csproj" />
@@ -51,6 +50,9 @@
 
   <ItemGroup>
     <Content Update="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Areas\Admin\Views\Categories\Create.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="Views\Categories\Create.cshtml">

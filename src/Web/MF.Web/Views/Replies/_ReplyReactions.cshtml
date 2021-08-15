@@ -1,0 +1,80 @@
+﻿@model MF.Models.ViewModels.Replies.ReplyViewModel
+<div class="card-body btn-group dropup float-right">
+    <button type="button" class="bg-transparent border-0" data-bs-toggle="dropdown">
+        <i class="far fa-smile"></i>
+    </button>
+    <ul class="dropdown-menu border-0 bg-transparent">
+        <li class="dropdown-items-right bg-transparent" style="display: inline">
+            <table>
+                <tr class="text-center">
+                    <td>
+                        <form asp-controller="ReplyReactions" asp-action="Controller" >
+                            <input type="hidden" name="reactionName" value="Like" />
+                            <input type="hidden" name="replyId" value="@Model.Id" />
+                            <button class="border-0 bg-transparent">
+                                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ7ONN7ZX_26ggmZUmqYEzj-8i3xC_UehR_YqBVPao_WojSjjJT7skIP35baKBxDEbF4P0&usqp=CAU" width="28" height="28" alt="Alternate Text" />
+                            </button>
+                        </form>
+                    </td>
+                    <td>
+                        <form asp-controller="ReplyReactions" asp-action="Controller" >
+                            <input type="hidden" name="reactionName" value="Funny" />
+                            <input type="hidden" name="replyId" value="@Model.Id" />
+                            <button class="border-0 bg-transparent">
+                                <img src="/reactions/Funny.png" width="25" height="25" alt="Alternate Text" />
+                            </button>
+                        </form>
+                    </td>
+                    <td>
+                        <form asp-controller="ReplyReactions" asp-action="Controller" >
+                            <input type="hidden" name="reactionName" value="Love" />
+                            <input type="hidden" name="replyId" value="@Model.Id" />
+                            <button class="border-0 bg-transparent">
+                                <img src="/reactions/Love.png" width="25" height="25" alt="Alternate Text" />
+                            </button>
+                        </form>
+                    </td>
+                    <td>
+                        <form asp-controller="ReplyReactions" asp-action="Controller">
+                            <input type="hidden" name="reactionName" value="Sad" />
+                            <input type="hidden" name="replyId" value="@Model.Id" />
+                            <button class="border-0 bg-transparent">
+                                <img src="/reactions/Sad.png" width="25" height="25" alt="Alternate Text" />
+                            </button>
+                        </form>
+                    </td>
+                    <td>
+                        <form asp-controller="ReplyReactions" asp-action="Controller" >
+                            <input type="hidden" name="reactionName" value="Angry" />
+                            <input type="hidden" name="replyId" value="@Model" />
+                            <button class="border-0 bg-transparent">
+                                <img src="/reactions/Angry.png" width="25" height="25" alt="Alternate Text" />
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                <tr class="text-center small">
+                    <td>
+                        <span class="card border-0">@Model.ReactionsCount.Like</span>
+                    </td>
+                    <td>
+                        <span class="card border-0">@Model.ReactionsCount.Funny</span>
+
+                    </td>
+                    <td>
+                        <span class="card border-0">@Model.ReactionsCount.Love</span>
+
+                    </td>
+                    <td>
+                        <span class="card border-0">@Model.ReactionsCount.Sad</span>
+
+                    </td>
+                    <td>
+
+                        <span class="card border-0">@Model.ReactionsCount.Angry</span>
+                    </td>
+                <tr>
+            </table>
+        </li>
+    </ul>
+</div>

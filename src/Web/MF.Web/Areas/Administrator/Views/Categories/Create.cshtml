@@ -1,0 +1,16 @@
+﻿@model MF.Models.ViewModels.Categories.CategoryCreateInputModel
+
+<div class="row">
+    <div class="col-1"></div>
+    <div class="col-10">
+        <form asp-area="Administrator" asp-controller="Categories" asp-action="Create" method="post">
+            <div class="form-group">
+                <input asp-for="Name" class="form-control" placeholder="Category name..">
+                <span asp-validation-for="Name" class="small text-danger"></span>
+                <br>
+                <input type="submit" class="btn btn-primary mb-2" value="Create" />
+            </div>
+        </form>
+    </div>
+    <div class="col-1"></div>
+</div>

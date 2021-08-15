@@ -34,13 +34,12 @@
             var senderId = this.GetUserId();
             this.messagesService.New(senderId, receiverId, message);
 
-            return this.RedirectToAction(nameof(PrivateChat), new { receiverId = receiverId });
+            return this.RedirectToAction(nameof(this.PrivateChat), new { receiverId });
         }
 
         [Authorize]
         public IActionResult PrivateChat(string receiverId)
         {
-
             var senderId = this.GetUserId();
             var messages = this.messagesService.MessagesBetweenUsers(senderId, receiverId);
             foreach (var msg in messages)
