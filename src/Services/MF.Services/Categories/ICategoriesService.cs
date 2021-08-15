@@ -8,7 +8,13 @@
     {
         public int Create(CategoryCreateInputModel input, string authorId);
 
-        public bool Delete(int categoryId);
+        public bool Archivate(int categoryId);
+
+        public ICollection<CategoryViewModel> GetArchives();
+
+        public void Restore(int categoryId);
+
+        public void Delete(int categoryId);
 
         public void Edit(CategoryEditInputModel input);
 

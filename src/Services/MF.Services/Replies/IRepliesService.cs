@@ -9,7 +9,13 @@
     {
         public void Create(ReplyCreateInputModel input, string authorId);
 
-        public bool Delete(int replyId);
+        public bool Archivate(int replyId);
+
+        public ICollection<ReplyViewModel> GetArchives();
+
+        public void Restore(int replyId);
+
+        public void Delete(int replyId);
 
         public void Edit(int replyId);
 

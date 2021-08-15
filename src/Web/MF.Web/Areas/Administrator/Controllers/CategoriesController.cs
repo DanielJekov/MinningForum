@@ -49,7 +49,9 @@
 
             if (!this.ModelState.IsValid)
             {
-                return this.RedirectToPreviousPage();
+                this.TempData[GlobalMessageFailure] = this.ModelStateErrorCollector();
+
+                return this.RedirectToAction(nameof(this.Create));
             }
 
             var authorId = this.GetUserId();
@@ -78,7 +80,9 @@
 
             if (!this.ModelState.IsValid)
             {
-                return this.BadRequest();
+                this.TempData[GlobalMessageFailure] = this.ModelStateErrorCollector();
+
+                return this.RedirectToAction(nameof(this.All));
             }
 
             this.categoriesService.Edit(input);

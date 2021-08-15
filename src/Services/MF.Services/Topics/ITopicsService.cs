@@ -9,7 +9,13 @@
     {
         public int Create(TopicCreateInputModel input, string authorId);
 
-        public bool Delete(int topicId);
+        public bool Archivate(int topicId);
+
+        public ICollection<TopicViewModel> GetArchives();
+
+        public void Restore(int topicId);
+
+        public void Delete(int topicId);
 
         public void Edit(int topicId);
 
