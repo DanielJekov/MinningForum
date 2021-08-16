@@ -4,6 +4,8 @@
     <TargetFramework>net5.0</TargetFramework>
     <UserSecretsId>aspnet-MF.Web-D099B96A-4B6F-490B-8D2B-81701827F8B8</UserSecretsId>
     <CopyRefAssembliesToPublishDirectory>false</CopyRefAssembliesToPublishDirectory>
+    <StartupObject></StartupObject>
+    <NoWin32Manifest>true</NoWin32Manifest>
   </PropertyGroup>
 
   <ItemGroup>
@@ -53,9 +55,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="Areas\Admin\Views\Categories\Create.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Views\Categories\Create.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="Views\Replies\All.cshtml">

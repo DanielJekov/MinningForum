@@ -50,7 +50,7 @@
             }
         }
 
-        public bool Delete(int replyId)
+        public bool Archivate(int replyId)
         {
             var reply = this.data.Replies
                                  .Where(r => r.IsDeleted == false &&
@@ -67,6 +67,49 @@
             this.data.SaveChanges();
 
             return true;
+        }
+
+        public ICollection<ReplyViewModel> GetArchives()
+        {
+            return this.data.Replies
+                            .Where(r => r.IsDeleted == true)
+                            .Select(r => new ReplyViewModel()
+                            {
+                                Id = r.Id,
+                                Content = r.Content,
+                                Author = r.Author.UserName,
+                                CreatedOn = r.CreatedOn,
+                                QuoteReply = r.QuoteReply != null ? new QuoteReplyViewModel
+                                {
+                                    Author = r.QuoteReply.Author.UserName,
+                                    Content = r.QuoteReply.Content,
+                                    CreatedOn = r.QuoteReply.CreatedOn,
+                                }
+                                : null,
+                                ReactionsCount = new ReactionsCountViewModel
+                                {
+                                    Like = r.ReplyReactions.Where(x => x.ReactionType == ReactionType.Like).Count(),
+                                    Love = r.ReplyReactions.Where(x => x.ReactionType == ReactionType.Love).Count(),
+                                    Funny = r.ReplyReactions.Where(x => x.ReactionType == ReactionType.Funny).Count(),
+                                    Angry = r.ReplyReactions.Where(x => x.ReactionType == ReactionType.Angry).Count(),
+                                    Sad = r.ReplyReactions.Where(x => x.ReactionType == ReactionType.Sad).Count(),
+                                },
+                            })
+                            .ToList();
+        }
+
+        public void Restore(int replyId)
+        {
+            var reply = this.data.Replies.Find(replyId);
+            reply.IsDeleted = false;
+            reply.DeletedOn = null;
+
+            this.data.SaveChanges();
+        }
+
+        public void Delete(int replyId)
+        {
+            throw new NotImplementedException();
         }
 
         public void Edit(int replyId)

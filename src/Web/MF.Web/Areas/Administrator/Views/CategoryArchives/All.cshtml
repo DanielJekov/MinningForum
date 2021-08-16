@@ -1,1 +1,75 @@
-﻿
+﻿@model ICollection<MF.Models.ViewModels.Categories.CategoryViewModel>
+
+<div class="row">
+    <div class="col-1"></div>
+    <div class="col-10">
+
+        <br>
+        <table class="table">
+            <thead>
+                <tr class="h6 text-center">
+                    <td class="text-left">
+                        Categories
+                    </td>
+                    <td>
+                        Topics
+                    </td>
+                    <td>
+                        Replies
+                    </td>
+                    <td>
+                        Restore
+                    </td>
+                    <td>
+                        Edit
+                    </td>
+                    <td>
+                        Hard Delete
+                    </td>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var category in Model)
+                {
+                    <tr class="text-center">
+                        <td class="text-left">
+                            <a asp-area="" asp-controller="Topics" asp-action="All" asp-route-categoryId="@category.Id" class="text-dark text-decoration-none">@category.Name</a>
+                        </td>
+                        <td>
+                            18
+                        </td>
+                        <td>
+                            1008
+                        </td>
+                        <td>
+                            <form asp-area="@AdministratorRoleName" asp-controller="CategoryArchives" asp-action="Restore" method="get" class="card-body ">
+                                <input type="hidden" name="categoryId" value="@category.Id" />
+                                <button class="border-0 bg-transparent">
+                                    <i class="fas fa-trash-restore"></i>
+                                </button>
+                            </form>
+                        </td>
+                        <td>
+                            <form asp-area="@AdministratorRoleName" asp-controller="Categories" asp-action="Edit" method="get" class="card-body">
+                                <input type="hidden" name="Id" value="@category.Id" />
+                                <input type="hidden" name="Name" value="@category.Name" />
+                                <button class="border-0 bg-transparent">
+                                    <i class="fas fa-edit text-dark"></i>
+                                </button>
+                            </form>
+                        </td>
+                        <td>
+                            <form asp-area="@AdministratorRoleName" asp-controller="CategoryArchives" asp-action="Delete" method="post" class="card-body ">
+                                <input type="hidden" name="categoryId" value="@category.Id" />
+                                <button class="border-0 bg-transparent">
+                                    <i class="far fa-trash-alt text-danger "></i>
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="col-1"></div>
+</div>

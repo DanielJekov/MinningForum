@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31321.278
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MF.Common", "MF.Common\MF.Common.csproj", "{5E567205-A9FA-49D6-807A-28DFA4E09549}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{F1E3F37E-8B41-49D3-817C-29560C9B2C76}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MF.Web", "Web\MF.Web\MF.Web.csproj", "{E8092468-D437-41A5-9360-EFB6414007C6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MF.Common", "MF.Common\MF.Common.csproj", "{5E567205-A9FA-49D6-807A-28DFA4E09549}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{EAFF0422-B28C-4CC2-ABF3-8FDC47735243}"
 EndProject
@@ -32,8 +34,6 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MF.Models.Common", "Models\MF.Models.Common\MF.Models.Common.csproj", "{92A6886A-A78C-4544-8855-FB6CA520E310}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MF.Models.ViewModels", "Models\MF.Models.ViewModels\MF.Models.ViewModels.csproj", "{9434A98F-BE72-40CB-ADA3-E8932E333168}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MF.Web", "Web\MF.Web\MF.Web.csproj", "{E8092468-D437-41A5-9360-EFB6414007C6}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MF.Models.ServiceModels", "Models\MF.Models.ServiceModels\MF.Models.ServiceModels.csproj", "{D2007903-824C-49BA-AD75-B05B767B75BB}"
 EndProject

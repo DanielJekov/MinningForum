@@ -23,9 +23,9 @@
         {
             var sb = new StringBuilder();
             var modelsErrors = this.ModelState.Where(e => e.Value.Errors.Count > 0)
-                                      .Select(e => e.Value.Errors.Select(s => s.ErrorMessage)
-                                      .FirstOrDefault())
-                                      .ToList();
+                                              .Select(e => e.Value.Errors.Select(s => s.ErrorMessage)
+                                              .FirstOrDefault())
+                                              .ToList();
 
             sb.AppendLine(string.Join(" ", modelsErrors));
 

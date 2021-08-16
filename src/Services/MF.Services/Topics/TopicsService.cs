@@ -37,7 +37,7 @@
             return topic.Id;
         }
 
-        public bool Delete(int topicId)
+        public bool Archivate(int topicId)
         {
             var topic = this.data.Topics.Find(topicId);
             topic.IsDeleted = true;
@@ -48,36 +48,84 @@
             return isSave != 0;
         }
 
+        public ICollection<TopicViewModel> GetArchives()
+        {
+            return this.data.Topics
+                            .Where(t => t.IsDeleted == true)
+                            .Select(topic => new TopicViewModel()
+                            {
+                                Id = topic.Id,
+                                Name = topic.Name,
+                                AuthorId = topic.Author.Id,
+                                AuthorUsername = topic.Author.UserName,
+                                LastReplyInfo = topic.Replies
+                                                     .OrderByDescending(r => r.CreatedOn)
+                                                     .Select(r => new LastReplyInfoViewModel()
+                                                     {
+                                                         AuthorId = r.Author.Id,
+                                                         AuthorUsername = r.Author.UserName,
+                                                         CreatedOn = r.CreatedOn,
+                                                     })
+                                                     .FirstOrDefault(),
+                                PublishedOn = topic.CreatedOn,
+                                RepliesCount = topic.Replies.Count,
+                                ReactionsCount = topic.TopicReactions.Count,
+                            })
+                            .ToList();
+        }
+
+        public void Restore(int topicId)
+        {
+            var topic = this.data.Topics.Find(topicId);
+            topic.IsDeleted = false;
+            topic.DeletedOn = null;
+
+            this.data.SaveChanges();
+        }
+
+        public void Delete(int topicId)
+        {
+            throw new NotImplementedException();
+        }
+
         public void Edit(int topicId)
         {
             throw new NotImplementedException();
         }
 
+        public void ChangeCategoryOnGivenTopic(ChangeCategoryOnTopicInputModel input)
+        {
+            var topic = this.data.Topics.Find(input.TopicId);
+            topic.CategoryId = input.CategoryId;
+
+            this.data.SaveChanges();
+        }
+
         public ICollection<TopicViewModel> GetTopicsByCategory(int categoryId)
         {
             return this.data.Topics
-                    .Where(t => t.Category.Id == categoryId)
-                    .Where(t => t.IsDeleted == false)
-                    .Select(topic => new TopicViewModel()
-                    {
-                        Id = topic.Id,
-                        Name = topic.Name,
-                        AuthorId = topic.Author.Id,
-                        AuthorUsername = topic.Author.UserName,
-                        LastReplyInfo = topic.Replies
-                                         .OrderByDescending(r => r.CreatedOn)
-                                         .Select(r => new LastReplyInfoViewModel()
-                                         {
-                                             AuthorId = r.Author.Id,
-                                             AuthorUsername = r.Author.UserName,
-                                             CreatedOn = r.CreatedOn,
-                                         })
-                                         .FirstOrDefault(),
-                        PublishedOn = topic.CreatedOn,
-                        RepliesCount = topic.Replies.Count,
-                        ReactionsCount = topic.TopicReactions.Count,
-                    })
-                    .ToList();
+                            .Where(t => t.Category.Id == categoryId)
+                            .Where(t => t.IsDeleted == false)
+                            .Select(topic => new TopicViewModel()
+                            {
+                                Id = topic.Id,
+                                Name = topic.Name,
+                                AuthorId = topic.Author.Id,
+                                AuthorUsername = topic.Author.UserName,
+                                LastReplyInfo = topic.Replies
+                                                     .OrderByDescending(r => r.CreatedOn)
+                                                     .Select(r => new LastReplyInfoViewModel()
+                                                     {
+                                                         AuthorId = r.Author.Id,
+                                                         AuthorUsername = r.Author.UserName,
+                                                         CreatedOn = r.CreatedOn,
+                                                     })
+                                                     .FirstOrDefault(),
+                                PublishedOn = topic.CreatedOn,
+                                RepliesCount = topic.Replies.Count,
+                                ReactionsCount = topic.TopicReactions.Count,
+                            })
+                            .ToList();
         }
 
         public TopicRepliesViewModel GetDetails(int topicId, string userId)
@@ -89,8 +137,16 @@
                             {
                                 Id = t.Id,
                                 Name = t.Name,
-                                CreatedOn = t.Replies.Where(x => x.IsDeleted == false).OrderBy(x => x.CreatedOn).Select(x => x.CreatedOn).FirstOrDefault(),
-                                LastReplyOn = t.Replies.Where(x => x.IsDeleted == false).OrderByDescending(x => x.CreatedOn).Select(x => x.CreatedOn).FirstOrDefault(),
+                                CreatedOn = t.Replies
+                                             .Where(x => x.IsDeleted == false)
+                                             .OrderBy(x => x.CreatedOn)
+                                             .Select(x => x.CreatedOn)
+                                             .FirstOrDefault(),
+                                LastReplyOn = t.Replies
+                                               .Where(x => x.IsDeleted == false)
+                                               .OrderByDescending(x => x.CreatedOn)
+                                               .Select(x => x.CreatedOn)
+                                               .FirstOrDefault(),
                                 IsFollowed = t.Followers.Any(f => f.Follower.Id == userId),
                                 ReactionsCount = new ReactionsCountViewModel
                                 {

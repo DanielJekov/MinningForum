@@ -25,7 +25,7 @@
                 return this.Redirect("/");
             }
 
-            var viewModel = this.categoriesService.GetAll();
+            var viewModel = this.categoriesService.GetAll(false);
             return this.View(viewModel);
         }
 
@@ -98,7 +98,7 @@
                 return this.Redirect("/");
             }
 
-            this.categoriesService.Delete(categoryId);
+            this.categoriesService.Archivate(categoryId);
 
             return this.RedirectToAction(nameof(this.All));
         }

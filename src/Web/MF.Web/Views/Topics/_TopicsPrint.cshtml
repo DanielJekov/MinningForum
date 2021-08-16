@@ -34,14 +34,23 @@
                         <a asp-controller="Users" asp-action="Details" asp-route-userId="@topic.LastReplyInfo.AuthorId" class="text-dark">@topic.LastReplyInfo.AuthorUsername</a>
                     </div>
                 </td>
-                <td>
-                    <form asp-controller="TopicReports" asp-action="Create" asp-route-id="@topic.Id" method="get">
-                        <input type="hidden" name="name" value="@topic.Name" />
-                        <button class="border-0 bg-transparent">
-                            <i class="fas fa-flag text-dark float-right"></i>
-                        </button>
-                    </form>
-                </td>
+                @if (this.User.IsInRole(AdministratorRoleName))
+                {
+                    <td>
+                        @await Component.InvokeAsync("ChangeTopicCategory", new {topicId = topic.Id })
+                    </td>
+                }
+                else
+                {
+                    <td>
+                        <form asp-controller="TopicReports" asp-action="Create" asp-route-id="@topic.Id" method="get">
+                            <input type="hidden" name="name" value="@topic.Name" />
+                            <button class="border-0 bg-transparent">
+                                <i class="fas fa-flag text-dark float-right"></i>
+                            </button>
+                        </form>
+                    </td>
+                }
             </tr>
         }
     </tbody>

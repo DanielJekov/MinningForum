@@ -19,6 +19,8 @@
 
         public void Edit(int topicId);
 
+        public void ChangeCategoryOnGivenTopic(ChangeCategoryOnTopicInputModel input);
+
         public ICollection<TopicViewModel> GetTopicsByCategory(int categoryId);
 
         public TopicRepliesViewModel GetDetails(int topicId, string userId);

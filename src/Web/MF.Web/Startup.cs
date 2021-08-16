@@ -96,6 +96,8 @@ namespace MF.Web
             app.UseAuthentication();
             app.UseAuthorization();
 
+            app.UseStatusCodePagesWithRedirects("/Home/Error{0}");
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute("areaRoute", "{area:exists}/{controller=Home}/{action=Index}/{id?}");

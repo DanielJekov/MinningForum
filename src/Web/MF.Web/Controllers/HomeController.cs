@@ -23,8 +23,7 @@
 
         public IActionResult Index()
         {
-            var categories = this.categoriesService.GetAll();
-            return this.View(categories);
+            return this.View();
         }
 
         public IActionResult Privacy()
@@ -36,6 +35,11 @@
         public IActionResult Error()
         {
             return this.View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? this.HttpContext.TraceIdentifier });
+        }
+
+        public IActionResult Error404()
+        {
+            return this.View();
         }
     }
 }

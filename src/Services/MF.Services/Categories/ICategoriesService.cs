@@ -12,13 +12,15 @@
 
         public ICollection<CategoryViewModel> GetArchives();
 
+        public string GetName(int categoryId);
+
         public void Restore(int categoryId);
 
         public void Delete(int categoryId);
 
         public void Edit(CategoryEditInputModel input);
 
-        public ICollection<CategoryViewModel> GetAll();
+        public ICollection<CategoryViewModel> GetAll(bool isDeleted);
 
         public CategoryTopicsViewModel GetDetails(string userId, int categoryId);
 

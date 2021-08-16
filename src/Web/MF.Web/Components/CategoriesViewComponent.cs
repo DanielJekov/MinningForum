@@ -17,7 +17,7 @@
 
         public async Task<IViewComponentResult> InvokeAsync()
         {
-             var viewModel = this.categoriesService.GetAll();
+             var viewModel = this.categoriesService.GetAll(false);
 
              return this.View(viewModel);
         }

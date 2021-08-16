@@ -99,7 +99,7 @@
                 return this.BadRequest();
             }
 
-            this.topicsService.Delete(topicId);
+            this.topicsService.Archivate(topicId);
 
             var categoryId = this.categoriesService.GetIdByTopicId(topicId);
             return this.RedirectToAction(nameof(this.All), new { categoryId });

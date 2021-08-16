@@ -2,5 +2,6 @@
 {
     public interface ITopicReportsService
     {
+        public void Create();
     }
 }

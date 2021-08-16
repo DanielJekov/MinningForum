@@ -24,7 +24,7 @@
                     }
                     <div class="card-body">@Html.Raw(reply.SanitizedContent)</div>
                     <div class="card-body col-12">
-                        @if (reply.IsUserOwner)
+                        @if (reply.IsUserOwner || this.User.IsInRole(AdministratorRoleName))
                         {
                             <form asp-controller="Replies" asp-action="Delete" method="post" class="card-body float-right">
                                 <input type="hidden" name="replyId" value="@reply.Id" />
@@ -33,9 +33,6 @@
                                 </button>
                             </form>
                         }
-                        <a asp-controller="ReplyReports" asp-action="Create" asp-route-id="@reply.Id" class="card-body float-right">
-                            <i class="fas fa-flag text-dark"></i>
-                        </a>
                         @if (this.User.Identity.IsAuthenticated)
                         {
                             <a href="#CreateReply" class="card-body float-right" onclick="QuoteReply(@reply.Id)">
@@ -43,6 +40,12 @@
                             </a>
 
                             <partial name="_ReplyReactions" model="@reply" />
+                        }
+                        else
+                        {
+                            <a asp-controller="ReplyReports" asp-action="Create" asp-route-id="@reply.Id" class="card-body float-right">
+                                <i class="fas fa-flag text-dark"></i>
+                            </a>
                         }
                     </div>
                     <br>

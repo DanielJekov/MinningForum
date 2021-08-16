@@ -1,0 +1,15 @@
+﻿@model MF.Models.ViewModels.Topics.ChangeCategoryOnTopicViewModel
+
+<div class="dropdown">
+    <a class="btn btn-primary" role="button" id="categoriesDropDown" data-bs-toggle="dropdown" aria-expanded="false">
+        <span class="text-white">Change Category</span>
+    </a>
+    <ul class="dropdown-menu">
+        @foreach (var category in Model.Categories)
+        {
+            <li>
+                <a asp-area="@AdministratorRoleName" asp-controller="Topics" asp-action="ChangeCategory" asp-route-categoryId="@category.Id" asp-route-topicId="@Model.TopicId"  class="dropdown-item">@category.Name</a>
+            </li>
+        }
+    </ul>
+</div>

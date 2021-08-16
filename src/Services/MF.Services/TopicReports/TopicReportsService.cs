@@ -10,5 +10,10 @@
         {
             this.data = data;
         }
+
+        public void Create()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

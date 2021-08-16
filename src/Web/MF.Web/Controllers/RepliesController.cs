@@ -83,7 +83,7 @@
                 return this.BadRequest();
             }
 
-            this.repliesService.Delete(replyId);
+            this.repliesService.Archivate(replyId);
 
             return this.RedirectToAction(nameof(this.All), new { topicId });
         }

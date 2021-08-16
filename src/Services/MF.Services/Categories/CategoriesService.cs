@@ -33,7 +33,7 @@
             return category.Id;
         }
 
-        public bool Delete(int categoryId)
+        public bool Archivate(int categoryId)
         {
             var category = this.data.Categories.Find(categoryId);
             category.IsDeleted = true;
@@ -41,6 +41,33 @@
             var isSaved = this.data.SaveChanges();
 
             return isSaved != 0;
+        }
+
+        public ICollection<CategoryViewModel> GetArchives()
+        {
+            return this.GetAll(true);
+        }
+
+        public void Restore(int categoryId)
+        {
+            var category = this.data.Categories.Find(categoryId);
+            category.IsDeleted = false;
+            category.DeletedOn = null;
+
+            this.data.SaveChanges();
+        }
+
+        public string GetName(int categoryId)
+        {
+            return this.data.Categories
+                            .Where(c => c.Id == categoryId)
+                            .Select(c => c.Name)
+                            .FirstOrDefault();
+        }
+
+        public void Delete(int categoryId)
+        {
+            throw new NotImplementedException();
         }
 
         public void Edit(CategoryEditInputModel input)
@@ -51,10 +78,10 @@
             this.data.SaveChanges();
         }
 
-        public ICollection<CategoryViewModel> GetAll()
+        public ICollection<CategoryViewModel> GetAll(bool isDeleted = false)
         {
             return this.data.Categories
-                            .Where(c => c.IsDeleted == false)
+                            .Where(c => c.IsDeleted == isDeleted)
                             .Select(c => new CategoryViewModel()
                             {
                                 Id = c.Id,
