@@ -20,7 +20,7 @@
                 <div class="card-text col-10">
                     @if (reply.QuoteReply != null)
                     {
-                        <partial name="_SubReply" model="reply.QuoteReply" />
+                        <partial name="_SubReplyPartial" model="reply.QuoteReply" />
                     }
                     <div class="card-body">@Html.Raw(reply.SanitizedContent)</div>
                     <div class="card-body col-12">
@@ -39,7 +39,7 @@
                                 <i class="fas fa-quote-right text-secondary"></i>
                             </a>
 
-                            <partial name="_ReplyReactions" model="@reply" />
+                            <partial name="_ReplyReactionsPartial" model="@reply" />
                         }
                         else
                         {

@@ -38,7 +38,7 @@
             </form>
         }
 
-        <partial name="_TopicReactions" model="@Model" />
+        <partial name="_TopicReactionsPartial" model="@Model" />
     }
     <form asp-controller="TopicReports" asp-action="Create" asp-route-id="@Model.Id" method="get" class="d-inline float-right">
         <input type="hidden" name="name" value="@Model.Name" />

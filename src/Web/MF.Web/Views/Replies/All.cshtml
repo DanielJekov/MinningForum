@@ -6,8 +6,8 @@
     <div class="row">
         <div class="col-lg-1"></div>
         <div class="col-lg-10">
-            <partial name="_TopicDetails" model="@Model" />
-            <partial name="_RepliesPrint" model="@Model.Replies" />
+            <partial name="_TopicDetailsPartial" model="@Model" />
+            <partial name="_RepliesPrintPartial" model="@Model.Replies" />
 
             @if (this.User.Identity.IsAuthenticated)
             {
